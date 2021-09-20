@@ -9,7 +9,7 @@
   "scripts": {
     "test": "jest --silent",
     "test:watch": "jest --watch",
-    "fix:prettier": "prettier --write \"{packages,test}/**/*.ts\"",
+    "fix:prettier": "prettier --write \"**/*.ts\"",
     "fix:eslint": "eslint . --format stylish --fix",
     "fix": "yarn fix:eslint && yarn fix:prettier"
   },
