@@ -1,0 +1,36 @@
+{
+  "name": "check",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "jest --silent",
+    "test:watch": "jest --watch",
+    "fix:prettier": "prettier --write \"{packages,test}/**/*.ts\"",
+    "fix:eslint": "eslint . --format stylish --fix",
+    "fix": "yarn fix:eslint && yarn fix:prettier"
+  },
+  "devDependencies": {
+    "@project-serum/anchor": "0.16.1",
+    "@types/jest": "^27.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.1.0",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.3",
+    "typescript-transform-paths": "^3.3.1"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}

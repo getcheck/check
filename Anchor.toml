@@ -1,0 +1,12 @@
+[programs.localnet]
+check = "DYL7EWPpyCfiJ4zisaeHghWYdo5EJPjdcQJ8YQJo6vbF"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "/Users/vecheslav/.config/solana/id.json"
+
+[scripts]
+test = "yarn test"
