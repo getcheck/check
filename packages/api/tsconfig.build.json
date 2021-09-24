@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "downlevelIteration": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
   },
   "include": [

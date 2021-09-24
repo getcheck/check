@@ -473,18 +473,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@getcheck/api@workspace:packages/api"
   dependencies:
+    "@getcheck/types": "workspace:^0.0.1"
     "@project-serum/anchor": 0.16.1
+    "@types/jest": ^27.0.1
+    "@types/jsonabc": ^2.3.1
     "@types/node": ^16.9.2
+    ajv: ^8.6.3
+    jest: ^27.1.0
+    jsonabc: ^2.3.1
+    rimraf: ^3.0.2
+    ts-jest: ^27.0.5
     ts-node: ^10.2.1
     typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
-"@getcheck/types@workspace:packages/types":
+"@getcheck/types@workspace:^0.0.1, @getcheck/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@getcheck/types@workspace:packages/types"
   dependencies:
     "@project-serum/anchor": 0.16.1
+    rimraf: ^3.0.2
     typescript: ^4.4.3
   languageName: unknown
   linkType: soft
@@ -1014,6 +1023,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jsonabc@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "@types/jsonabc@npm:2.3.1"
+  checksum: dc85828a1dab023e9faab4c8547b63a5e77019dda1a8e31585f4927032ef9dc57ed700b0c5dfa220cd5ccf4185007e13ddc16af0c02d30803b61f9b0b271526e
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:^4.14.159":
   version: 4.14.173
   resolution: "@types/lodash@npm:4.14.173"
@@ -1313,7 +1329,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^8.0.1":
+"ajv@npm:^8.0.1, ajv@npm:^8.6.3":
   version: 8.6.3
   resolution: "ajv@npm:8.6.3"
   dependencies:
@@ -3813,6 +3829,13 @@ fsevents@^2.3.2:
   bin:
     json5: lib/cli.js
   checksum: e88fc5274bb58fc99547baa777886b069d2dd96d9cfc4490b305fd16d711dabd5979e35a4f90873cefbeb552e216b041a304fe56702bedba76e19bc7845f208d
+  languageName: node
+  linkType: hard
+
+"jsonabc@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "jsonabc@npm:2.3.1"
+  checksum: 2db5f12fbe3949f854fa4709fd9259630ced9f1d6e8394be8e03cbb3aac419fe2f1fced5ba18850b6af9942eaa07f1be29338047ccecd9028eebe93885a4ae3a
   languageName: node
   linkType: hard
 

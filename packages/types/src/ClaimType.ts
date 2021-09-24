@@ -10,8 +10,10 @@ export interface IClaimTypeSchema {
   type: 'object'
 }
 
+export type ClaimTypeSchemaWithoutId = Omit<IClaimTypeSchema, '$id'>
+
 export interface IClaimType {
   hash: string
-  owner: web3.PublicKey
   schema: IClaimTypeSchema
+  owner?: web3.PublicKey
 }
