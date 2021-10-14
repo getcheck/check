@@ -1,5 +1,5 @@
+import { SeedWallet } from '@getcheck/api'
 import { Provider, web3 } from '@project-serum/anchor'
-import { Identity, SeedWallet } from '@getcheck/api'
 
 export const payer = web3.Keypair.fromSecretKey(
   new Uint8Array([
@@ -14,6 +14,3 @@ const options = Provider.defaultOptions()
 export const connection = new web3.Connection('http://localhost:8899', options.preflightCommitment)
 export const wallet = new SeedWallet(payer)
 export const provider = new Provider(connection, wallet, options)
-export const receiver = web3.Keypair.generate()
-export const receiverWallet = new SeedWallet(receiver)
-export const receiverIdentity = Identity.fromKeypair(receiver)

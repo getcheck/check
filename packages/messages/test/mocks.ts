@@ -1,4 +1,6 @@
+import { Identity, SeedWallet } from '@getcheck/api'
 import { ClaimContents, ClaimTypeSchemaWithoutId } from '@getcheck/types'
+import { web3 } from '@project-serum/anchor'
 
 export const schema: ClaimTypeSchemaWithoutId = {
   $schema: 'http://getcheck.dev/draft-01/claim-type#',
@@ -11,3 +13,7 @@ export const schema: ClaimTypeSchemaWithoutId = {
 }
 
 export const claimContents: ClaimContents = { foo: 123, bar: 'abc' }
+
+export const receiver = web3.Keypair.generate()
+export const receiverWallet = new SeedWallet(receiver)
+export const receiverIdentity = Identity.fromKeypair(receiver)

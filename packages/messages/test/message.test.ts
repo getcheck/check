@@ -7,8 +7,8 @@ import {
   MessageBodyType,
 } from '@getcheck/types'
 import { Message } from '../src'
-import { claimContents, schema } from './mocks'
-import { payer, provider, receiver, receiverIdentity, receiverWallet, wallet } from './utils'
+import { claimContents, receiver, receiverIdentity, receiverWallet, schema } from './mocks'
+import { payer, provider, wallet } from './utils'
 
 describe('message', () => {
   const claimType = ClaimType.fromSchema(schema, payer.publicKey)
@@ -39,8 +39,8 @@ describe('message', () => {
   })
 
   test('decrypt', async () => {
-    const decryped = await Message.decrypt(encrypted, receiverWallet)
-    const { request } = decryped.body.content as IRequestForAttestationBodyContent
+    const decrypted = await Message.decrypt(encrypted, receiverWallet)
+    const { request } = decrypted.body.content as IRequestForAttestationBodyContent
     expect(request.claim.contents.foo).toBe(claimContents.foo)
   })
 })
