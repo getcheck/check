@@ -2,7 +2,7 @@ import { web3 } from '@project-serum/anchor'
 
 export type RecordResult = {
   signature: web3.TransactionSignature
-  pubkey: web3.PublicKey
+  publicKey: web3.PublicKey
 }
 
 export interface IAttestationAccount {

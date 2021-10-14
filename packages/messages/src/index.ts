@@ -4,13 +4,13 @@ import { web3 } from '@project-serum/anchor'
 
 export class Message implements IMessage {
   body: IMessage['body']
-  senderPubkey: IMessage['senderPubkey']
-  senderBoxPubkey: IMessage['senderBoxPubkey']
-  receiverPubkey: IMessage['receiverPubkey']
+  senderPublicKey: IMessage['senderPublicKey']
+  senderBoxPublicKey: IMessage['senderBoxPublicKey']
+  receiverPublicKey: IMessage['receiverPublicKey']
   createdAt: number
 
   constructor(
-    args: Pick<IMessage, 'body' | 'receiverPubkey' | 'senderPubkey' | 'senderBoxPubkey'>,
+    args: Pick<IMessage, 'body' | 'receiverPublicKey' | 'senderPublicKey' | 'senderBoxPublicKey'>,
   ) {
     Object.assign(this, args)
 
@@ -19,23 +19,23 @@ export class Message implements IMessage {
 
   static ensureHashAndSignature(
     { ciphertext, nonce, signature, createdAt, hash }: IEncryptedMessage,
-    senderPubkey: web3.PublicKey,
+    senderPublicKey: web3.PublicKey,
   ) {
     if (Crypto.hashAsStr(ciphertext + nonce + createdAt) !== hash) {
       throw new Error('Nonce hash invalid')
     }
 
-    if (!Crypto.verify(hash, signature, senderPubkey)) {
+    if (!Crypto.verify(hash, signature, senderPublicKey)) {
       throw new Error('Signature unverifiable')
     }
   }
 
   static async decrypt(encrypted: IEncryptedMessage, wallet: Wallet): Promise<IMessage> {
-    Message.ensureHashAndSignature(encrypted, encrypted.senderPubkey)
+    Message.ensureHashAndSignature(encrypted, encrypted.senderPublicKey)
 
     const decoded = await wallet.decryptAsymmetricAsStr(
       { box: encrypted.ciphertext, nonce: encrypted.nonce },
-      encrypted.senderBoxPubkey,
+      encrypted.senderBoxPublicKey,
     )
 
     if (!decoded) {
@@ -57,7 +57,7 @@ export class Message implements IMessage {
   async encrypt(wallet: Wallet, receiver: IIdentity): Promise<IEncryptedMessage> {
     const encrypted = await wallet.encryptAsymmetricAsStr(
       JSON.stringify(this.body),
-      receiver.boxPubkey,
+      receiver.boxPublicKey,
     )
     const ciphertext = encrypted.box
     const { nonce } = encrypted
@@ -71,9 +71,9 @@ export class Message implements IMessage {
       hash,
       signature,
       createdAt: this.createdAt,
-      receiverPubkey: this.receiverPubkey,
-      senderPubkey: this.senderPubkey,
-      senderBoxPubkey: this.senderBoxPubkey,
+      receiverPublicKey: this.receiverPublicKey,
+      senderPublicKey: this.senderPublicKey,
+      senderBoxPublicKey: this.senderBoxPublicKey,
     }
   }
 }

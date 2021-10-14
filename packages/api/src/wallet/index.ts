@@ -35,29 +35,29 @@ export class SeedWallet implements Wallet {
 
   async encryptAsymmetric(
     message: CryptoInput,
-    boxPubkey: Uint8Array,
+    boxPublicKey: Uint8Array,
   ): Promise<EncryptedAsymmetric> {
-    return Crypto.encryptAsymmetric(message, boxPubkey, this.boxKeyPair.secretKey)
+    return Crypto.encryptAsymmetric(message, boxPublicKey, this.boxKeyPair.secretKey)
   }
 
   async encryptAsymmetricAsStr(
     message: CryptoInput,
-    boxPubkey: Uint8Array,
+    boxPublicKey: Uint8Array,
   ): Promise<EncryptedAsymmetricStr> {
-    return Crypto.encryptAsymmetricAsStr(message, boxPubkey, this.boxKeyPair.secretKey)
+    return Crypto.encryptAsymmetricAsStr(message, boxPublicKey, this.boxKeyPair.secretKey)
   }
 
   async decryptAsymmetric(
     data: EncryptedAsymmetric | EncryptedAsymmetricStr,
-    boxPubkey: Uint8Array,
+    boxPublicKey: Uint8Array,
   ): Promise<Uint8Array | false> {
-    return Crypto.decryptAsymmetric(data, boxPubkey, this.boxKeyPair.secretKey)
+    return Crypto.decryptAsymmetric(data, boxPublicKey, this.boxKeyPair.secretKey)
   }
 
   async decryptAsymmetricAsStr(
     data: EncryptedAsymmetric | EncryptedAsymmetricStr,
-    boxPubkey: Uint8Array,
+    boxPublicKey: Uint8Array,
   ): Promise<string | false> {
-    return Crypto.decryptAsymmetricAsStr(data, boxPubkey, this.boxKeyPair.secretKey)
+    return Crypto.decryptAsymmetricAsStr(data, boxPublicKey, this.boxKeyPair.secretKey)
   }
 }

@@ -11,17 +11,17 @@ export interface Wallet {
   signMessage(message: Uint8Array): Promise<Uint8Array>
 
   // Encrypting
-  encryptAsymmetric(message: CryptoInput, boxPubkey: Uint8Array): Promise<EncryptedAsymmetric>
+  encryptAsymmetric(message: CryptoInput, boxPublicKey: Uint8Array): Promise<EncryptedAsymmetric>
   encryptAsymmetricAsStr(
     message: CryptoInput,
-    boxPubkey: Uint8Array,
+    boxPublicKey: Uint8Array,
   ): Promise<EncryptedAsymmetricStr>
   decryptAsymmetric(
     data: EncryptedAsymmetric | EncryptedAsymmetricStr,
-    boxPubkey: Uint8Array,
+    boxPublicKey: Uint8Array,
   ): Promise<Uint8Array | false>
   decryptAsymmetricAsStr(
     data: EncryptedAsymmetric | EncryptedAsymmetricStr,
-    boxPubkey: Uint8Array,
+    boxPublicKey: Uint8Array,
   ): Promise<string | false>
 }

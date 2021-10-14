@@ -37,14 +37,14 @@ export type MessageBody = IRequestForAttestationBody | ISubmitAttestationBody
 export interface IMessage {
   body: MessageBody
   createdAt: number
-  receiverPubkey: web3.PublicKey
-  senderPubkey: web3.PublicKey
-  senderBoxPubkey: Uint8Array
+  receiverPublicKey: web3.PublicKey
+  senderPublicKey: web3.PublicKey
+  senderBoxPublicKey: Uint8Array
 }
 
 export type IEncryptedMessage = Pick<
   IMessage,
-  'createdAt' | 'receiverPubkey' | 'senderPubkey' | 'senderBoxPubkey'
+  'createdAt' | 'receiverPublicKey' | 'senderPublicKey' | 'senderBoxPublicKey'
 > & {
   ciphertext: string
   nonce: string

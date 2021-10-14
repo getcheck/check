@@ -29,8 +29,8 @@ export class ClaimType implements IClaimType {
     })
   }
 
-  static async fetchAccount(pubkey: web3.PublicKey): Promise<IClaimTypeAccount> {
-    return (await context.program.account.claimType.fetch(pubkey)) as IClaimTypeAccount
+  static async fetchAccount(publicKey: web3.PublicKey): Promise<IClaimTypeAccount> {
+    return (await context.program.account.claimType.fetch(publicKey)) as IClaimTypeAccount
   }
 
   async getPDA() {
@@ -52,7 +52,7 @@ export class ClaimType implements IClaimType {
 
     return {
       signature,
-      pubkey: claimType,
+      publicKey: claimType,
     }
   }
 }

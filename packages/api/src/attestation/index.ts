@@ -52,12 +52,12 @@ export class Attestation implements IAttestation {
     })
   }
 
-  static async fetchAccount(pubkey: web3.PublicKey): Promise<IAttestationAccount> {
-    return (await context.program.account.attestation.fetch(pubkey)) as IAttestationAccount
+  static async fetchAccount(publicKey: web3.PublicKey): Promise<IAttestationAccount> {
+    return (await context.program.account.attestation.fetch(publicKey)) as IAttestationAccount
   }
 
-  static async fetch(pubkey: web3.PublicKey): Promise<Attestation> {
-    const account = await Attestation.fetchAccount(pubkey)
+  static async fetch(publicKey: web3.PublicKey): Promise<Attestation> {
+    const account = await Attestation.fetchAccount(publicKey)
     return Attestation.fromAccount(account)
   }
 
@@ -81,7 +81,7 @@ export class Attestation implements IAttestation {
 
     return {
       signature,
-      pubkey: attestation,
+      publicKey: attestation,
     }
   }
 }

@@ -4,6 +4,6 @@ export type PublicKey = web3.PublicKey
 export type BoxPublicKey = Uint8Array
 
 export interface IIdentity {
-  pubkey: PublicKey
-  boxPubkey: BoxPublicKey
+  publicKey: PublicKey
+  boxPublicKey: BoxPublicKey
 }

@@ -29,13 +29,13 @@ describe('message', () => {
     }
     const message = new Message({
       body,
-      senderPubkey: wallet.publicKey,
-      senderBoxPubkey: wallet.boxPublicKey,
-      receiverPubkey: receiver.publicKey,
+      senderPublicKey: wallet.publicKey,
+      senderBoxPublicKey: wallet.boxPublicKey,
+      receiverPublicKey: receiver.publicKey,
     })
 
     encrypted = await message.encrypt(wallet, receiverIdentity)
-    expect(encrypted.senderBoxPubkey).toBe(wallet.boxPublicKey)
+    expect(encrypted.senderBoxPublicKey).toBe(wallet.boxPublicKey)
   })
 
   test('decrypt', async () => {

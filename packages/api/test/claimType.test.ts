@@ -20,9 +20,9 @@ describe('claimType', () => {
       { ...schema, title: Math.random().toString() },
       payer.publicKey,
     )
-    const { pubkey } = await claimType.record()
+    const { publicKey } = await claimType.record()
 
-    const account = await ClaimType.fetchAccount(pubkey)
+    const account = await ClaimType.fetchAccount(publicKey)
     expect(new Uint8Array(account.hash)).toEqual(Crypto.hexToU8a(claimType.hash))
   })
 })

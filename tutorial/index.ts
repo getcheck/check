@@ -70,8 +70,8 @@ const claimerSteps0 = async () => {
   )
   console.log(claimType)
 
-  const { pubkey, signature } = await claimType.record()
-  console.log(signature, pubkey.toString())
+  const { publicKey, signature } = await claimType.record()
+  console.log(signature, publicKey.toString())
 
   //
   // Step 1: Build claim from contents
@@ -95,9 +95,9 @@ const claimerSteps0 = async () => {
   }
   const message = new Message({
     body,
-    senderPubkey: claimerWallet.publicKey,
-    senderBoxPubkey: claimerWallet.boxPublicKey,
-    receiverPubkey: issuer.pubkey,
+    senderPublicKey: claimerWallet.publicKey,
+    senderBoxPublicKey: claimerWallet.boxPublicKey,
+    receiverPublicKey: issuer.publicKey,
   })
   const encrypted = await message.encrypt(claimerWallet, issuer)
   console.log(message, encrypted)
@@ -114,11 +114,13 @@ const issuerSteps = async (encryptedRequestForAttestation: IEncryptedMessage) =>
   const decrypted = await Message.decrypt(encryptedRequestForAttestation, issuerWallet)
   const content = decrypted.body.content as IRequestForAttestationBodyContent
 
-  const attestation = Attestation.fromRequestAndIssuer(content.request, issuer.pubkey)
+  // ... Is it okay?
+
+  const attestation = Attestation.fromRequestAndIssuer(content.request, issuer.publicKey)
   console.log(attestation)
 
-  const { pubkey, signature } = await attestation.record()
-  console.log(signature, pubkey.toString())
+  const { publicKey, signature } = await attestation.record()
+  console.log(signature, publicKey.toString())
 
   //
   // Step 1: Send message to claimer
@@ -129,9 +131,9 @@ const issuerSteps = async (encryptedRequestForAttestation: IEncryptedMessage) =>
   }
   const message = new Message({
     body,
-    senderPubkey: issuerWallet.publicKey,
-    senderBoxPubkey: issuerWallet.boxPublicKey,
-    receiverPubkey: claimer.pubkey,
+    senderPublicKey: issuerWallet.publicKey,
+    senderBoxPublicKey: issuerWallet.boxPublicKey,
+    receiverPublicKey: claimer.publicKey,
   })
   const encrypted = await message.encrypt(issuerWallet, claimer)
   console.log(message, encrypted)

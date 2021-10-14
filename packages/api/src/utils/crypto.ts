@@ -69,9 +69,9 @@ export const signStr = async (message: CryptoInput, keypair: web3.Keypair): Prom
 export const verify = (
   message: CryptoInput,
   signature: CryptoInput,
-  pubkey: web3.PublicKey,
+  publicKey: web3.PublicKey,
 ): boolean => {
-  return nacl.sign.detached.verify(ciToU8a(message), ciToU8a(signature), pubkey.toBytes())
+  return nacl.sign.detached.verify(ciToU8a(message), ciToU8a(signature), publicKey.toBytes())
 }
 
 export const createBoxKeyPair = (
@@ -84,20 +84,20 @@ export const createBoxKeyPair = (
 
 export const encryptAsymmetric = (
   message: CryptoInput,
-  pubkeyA: CryptoInput,
-  keypairB: CryptoInput,
+  publicKeyA: CryptoInput,
+  secretKeyB: CryptoInput,
 ): EncryptedAsymmetric => {
   const nonce = nacl.randomBytes(24)
-  const box = nacl.box(ciToU8a(message), nonce, ciToU8a(pubkeyA), ciToU8a(keypairB))
+  const box = nacl.box(ciToU8a(message), nonce, ciToU8a(publicKeyA), ciToU8a(secretKeyB))
   return { box, nonce }
 }
 
 export const encryptAsymmetricAsStr = (
   message: CryptoInput,
-  pubkeyA: CryptoInput,
-  keypairB: CryptoInput,
+  publicKeyA: CryptoInput,
+  secretKeyB: CryptoInput,
 ): EncryptedAsymmetricStr => {
-  const encrypted = encryptAsymmetric(message, pubkeyA, keypairB)
+  const encrypted = encryptAsymmetric(message, publicKeyA, secretKeyB)
   const box: string = u8aToHex(encrypted.box)
   const nonce: string = u8aToHex(encrypted.nonce)
   return { box, nonce }
@@ -105,23 +105,23 @@ export const encryptAsymmetricAsStr = (
 
 export const decryptAsymmetric = (
   data: EncryptedAsymmetric | EncryptedAsymmetricStr,
-  pubkeyB: CryptoInput,
-  keypairA: CryptoInput,
+  publicKeyB: CryptoInput,
+  secretKeyA: CryptoInput,
 ): Uint8Array | false => {
   const decrypted = nacl.box.open(
     ciToU8a(data.box),
     ciToU8a(data.nonce),
-    ciToU8a(pubkeyB),
-    ciToU8a(keypairA),
+    ciToU8a(publicKeyB),
+    ciToU8a(secretKeyA),
   )
   return decrypted || false
 }
 
 export const decryptAsymmetricAsStr = (
   data: EncryptedAsymmetric | EncryptedAsymmetricStr,
-  pubkeyB: CryptoInput,
-  keypairA: CryptoInput,
+  publicKeyB: CryptoInput,
+  secretKeyA: CryptoInput,
 ): string | false => {
-  const res = decryptAsymmetric(data, pubkeyB, keypairA)
+  const res = decryptAsymmetric(data, publicKeyB, secretKeyA)
   return res ? u8aToStr(res) : false
 }

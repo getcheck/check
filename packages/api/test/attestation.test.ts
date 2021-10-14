@@ -10,8 +10,8 @@ describe('attestation', () => {
     Check.init(provider, wallet)
 
     try {
-      const [pubkey] = await claimType.getPDA()
-      await ClaimType.fetchAccount(pubkey)
+      const [publicKey] = await claimType.getPDA()
+      await ClaimType.fetchAccount(publicKey)
     } catch (err) {
       await claimType.record()
     }
@@ -33,9 +33,9 @@ describe('attestation', () => {
     const request = await RequestForAttestation.fromClaim(claimDirty)
     const attestation = Attestation.fromRequestAndIssuer(request, payer.publicKey)
 
-    const { pubkey } = await attestation.record()
+    const { publicKey } = await attestation.record()
 
-    const account = await Attestation.fetchAccount(pubkey)
+    const account = await Attestation.fetchAccount(publicKey)
     expect(new Uint8Array(account.claimHash)).toEqual(Crypto.hexToU8a(attestation.claimHash))
   })
 })
