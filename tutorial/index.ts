@@ -67,29 +67,36 @@ const run = async () => {
   {
     Check.init(new Provider(connection, claimerWallet, options), claimerWallet)
 
-    // Step 0: Create claim type & record it
+    /**
+     * Step 0: Create claim type & record it
+     */
 
     const claimType = ClaimType.fromSchema(
       { ...schema, title: Math.random().toString() },
       claimerWallet.publicKey,
     )
     console.log(claimType)
-
     const { publicKey, signature } = await claimType.record()
     console.log(signature, publicKey.toString())
 
-    // Step 1: Build claim from contents
+    /**
+     * Step 1: Build claim from contents
+     */
 
     const claimContents: ClaimContents = { name: 'Pfizer', date: Date.now() }
     const claim = Claim.fromContents(claimType, claimContents, claimerWallet.publicKey)
     console.log(claim)
 
-    // Step 2: Request for attestation from the issuer
+    /**
+     * Step 2: Request for attestation from the issuer
+     */
 
     request = await RequestForAttestation.fromClaim(claim)
     console.log(request)
 
-    // Step 3: Send message to issuer
+    /**
+     * Step 3: Send message to issuer
+     */
 
     const body: IRequestForAttestationBody = {
       content: { request },
@@ -111,20 +118,22 @@ const run = async () => {
   {
     Check.init(new Provider(connection, issuerWallet, options), issuerWallet)
 
-    // Step 4: Fetch message, record & submit attestation
+    /**
+     * Step 4: Fetch message, record & submit attestation
+     */
 
     const decrypted = await Message.decrypt(encryptedRequestForAttestation, issuerWallet)
     const content = decrypted.body.content as IRequestForAttestationBodyContent
-
-    // ... Is it okay?
-
+    // ... Check claimer properties
     const attestation = Attestation.fromRequestAndIssuer(content.request, issuer.publicKey)
     console.log(attestation)
 
     const { publicKey, signature } = await attestation.record()
     console.log(signature, publicKey.toString())
 
-    // Step 5: Send message to claimer
+    /**
+     * Step 5: Send message to claimer
+     */
 
     const body: ISubmitAttestationBody = {
       content: { attestation },
@@ -144,11 +153,12 @@ const run = async () => {
   {
     Check.init(new Provider(connection, claimerWallet, options), claimerWallet)
 
-    // Step 6: Fetch message, create credential
+    /**
+     * Step 6: Fetch message, create credential
+     */
 
     const decrypted = await Message.decrypt(encryptedSubmitAttestation, claimerWallet)
     const content = decrypted.body.content as ISubmitAttestationBodyContent
-
     const credential = Credential.fromRequestAndAttestation(request, content.attestation)
     console.log(credential)
   }
