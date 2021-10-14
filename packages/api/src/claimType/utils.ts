@@ -7,6 +7,7 @@ import { claimTypeSchema } from './schema'
 
 export const CLAIM_TYPE_PREFIX = 'claim_type'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateSchema = (schema: Record<string, any>, data: Record<string, any>) => {
   const ajv = new Ajv()
   ajv.addMetaSchema(claimTypeSchema)

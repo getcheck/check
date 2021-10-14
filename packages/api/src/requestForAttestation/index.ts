@@ -40,7 +40,7 @@ export class RequestForAttestation implements IRequestForAttestation {
       legitimations,
     })
 
-    const claimerSignature = await Crypto.signStr(rootHash, wallet)
+    const claimerSignature = Crypto.u8aToHex(await wallet.signMessage(Crypto.ciToU8a(rootHash)))
 
     return new RequestForAttestation({
       claim,

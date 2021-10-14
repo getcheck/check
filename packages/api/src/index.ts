@@ -6,6 +6,7 @@ export * from './requestForAttestation'
 export * from './attestation'
 export * from './credential'
 export * from './wallet'
+export * from './identity'
 export * from './utils'
 export * from './check'
 

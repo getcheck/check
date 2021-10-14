@@ -1,20 +1,24 @@
-import { sortObj } from 'jsonabc'
+import { CryptoInput, EncryptedAsymmetric, EncryptedAsymmetricStr, Hash } from '@getcheck/types'
+import { BN, utils, web3 } from '@project-serum/anchor'
 import { sha256 } from 'js-sha256'
+import { sortObj } from 'jsonabc'
 import nacl from 'tweetnacl'
-import { web3, utils, BN } from '@project-serum/anchor'
 import { v4 as uuid } from 'uuid'
-import { isString } from './is'
-import { Hash, Wallet } from '@getcheck/types'
-
-export type CryptoInput = string | number[] | ArrayBuffer | Uint8Array
+import { isHex, isString } from './is'
 
 // TODO: update to another library without buffer
 export const hexToU8a = (input: string) => new Uint8Array(utils.bytes.hex.decode(input))
-export const u8aToHex = (input: Uint8Array) => utils.bytes.hex.encode(Buffer.from(input))
 export const hexToBN = (input: string) => new BN(hexToU8a(input))
+export const u8aToHex = (input: Uint8Array) => utils.bytes.hex.encode(Buffer.from(input))
+export const u8aToStr = (input: Uint8Array) => utils.bytes.utf8.decode(input)
+export const strToU8a = (input: string) => utils.bytes.utf8.encode(input)
 
 export const ciToU8a = (input: CryptoInput) => {
-  return isString(input) ? hexToU8a(input) : new Uint8Array(input)
+  return isString(input)
+    ? isHex(input)
+      ? hexToU8a(input)
+      : strToU8a(input)
+    : new Uint8Array(input)
 }
 
 export const hash = (input: CryptoInput): Uint8Array => {
@@ -53,12 +57,12 @@ export const hashStatements = (
   })
 }
 
-export const sign = (message: CryptoInput, wallet: Wallet): Promise<Uint8Array> => {
-  return wallet.signMessage(ciToU8a(message))
+export const sign = (message: CryptoInput, keypair: web3.Keypair): Uint8Array => {
+  return nacl.sign.detached(ciToU8a(message), keypair.secretKey)
 }
 
-export const signStr = async (message: CryptoInput, wallet: Wallet): Promise<string> => {
-  const signature = await sign(message, wallet)
+export const signStr = async (message: CryptoInput, keypair: web3.Keypair): Promise<string> => {
+  const signature = await sign(message, keypair)
   return u8aToHex(signature)
 }
 
@@ -68,4 +72,56 @@ export const verify = (
   pubkey: web3.PublicKey,
 ): boolean => {
   return nacl.sign.detached.verify(ciToU8a(message), ciToU8a(signature), pubkey.toBytes())
+}
+
+export const createBoxKeyPair = (
+  seed: Uint8Array,
+  entropy = new Uint8Array([1, 2, 3]),
+): nacl.BoxKeyPair => {
+  const secret = hash(new Uint8Array([...seed, ...entropy]))
+  return nacl.box.keyPair.fromSecretKey(secret)
+}
+
+export const encryptAsymmetric = (
+  message: CryptoInput,
+  pubkeyA: CryptoInput,
+  keypairB: CryptoInput,
+): EncryptedAsymmetric => {
+  const nonce = nacl.randomBytes(24)
+  const box = nacl.box(ciToU8a(message), nonce, ciToU8a(pubkeyA), ciToU8a(keypairB))
+  return { box, nonce }
+}
+
+export const encryptAsymmetricAsStr = (
+  message: CryptoInput,
+  pubkeyA: CryptoInput,
+  keypairB: CryptoInput,
+): EncryptedAsymmetricStr => {
+  const encrypted = encryptAsymmetric(message, pubkeyA, keypairB)
+  const box: string = u8aToHex(encrypted.box)
+  const nonce: string = u8aToHex(encrypted.nonce)
+  return { box, nonce }
+}
+
+export const decryptAsymmetric = (
+  data: EncryptedAsymmetric | EncryptedAsymmetricStr,
+  pubkeyB: CryptoInput,
+  keypairA: CryptoInput,
+): Uint8Array | false => {
+  const decrypted = nacl.box.open(
+    ciToU8a(data.box),
+    ciToU8a(data.nonce),
+    ciToU8a(pubkeyB),
+    ciToU8a(keypairA),
+  )
+  return decrypted || false
+}
+
+export const decryptAsymmetricAsStr = (
+  data: EncryptedAsymmetric | EncryptedAsymmetricStr,
+  pubkeyB: CryptoInput,
+  keypairA: CryptoInput,
+): string | false => {
+  const res = decryptAsymmetric(data, pubkeyB, keypairA)
+  return res ? u8aToStr(res) : false
 }

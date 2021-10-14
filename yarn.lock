@@ -469,7 +469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@getcheck/api@workspace:packages/api":
+"@getcheck/api@workspace:^0.0.1, @getcheck/api@workspace:packages/api":
   version: 0.0.0-use.local
   resolution: "@getcheck/api@workspace:packages/api"
   dependencies:
@@ -488,6 +488,22 @@ __metadata:
     tweetnacl: ^1.0.3
     typescript: ^4.4.3
     uuid: ^8.3.2
+  languageName: unknown
+  linkType: soft
+
+"@getcheck/messages@workspace:packages/messages":
+  version: 0.0.0-use.local
+  resolution: "@getcheck/messages@workspace:packages/messages"
+  dependencies:
+    "@getcheck/api": "workspace:^0.0.1"
+    "@getcheck/types": "workspace:^0.0.1"
+    "@types/jest": ^27.0.1
+    "@types/node": ^16.9.2
+    jest: ^27.1.0
+    rimraf: ^3.0.2
+    ts-jest: ^27.0.5
+    ts-node: ^10.2.1
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
