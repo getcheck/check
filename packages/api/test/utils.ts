@@ -1,4 +1,5 @@
-import { Provider, web3, Wallet } from '@project-serum/anchor'
+import { Provider, web3 } from '@project-serum/anchor'
+import { SeedWallet } from '../src'
 
 export const payer = web3.Keypair.fromSecretKey(
   new Uint8Array([
@@ -11,5 +12,5 @@ export const payer = web3.Keypair.fromSecretKey(
 
 const options = Provider.defaultOptions()
 export const connection = new web3.Connection('http://localhost:8899', options.preflightCommitment)
-export const wallet = new Wallet(payer)
+export const wallet = new SeedWallet(payer)
 export const provider = new Provider(connection, wallet, options)

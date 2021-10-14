@@ -1,4 +1,4 @@
-import { IClaim, IClaimContents, IClaimType } from '@getcheck/types'
+import { IClaim, ClaimContents, IClaimType } from '@getcheck/types'
 import { web3 } from '@project-serum/anchor'
 import { validateSchema } from '../claimType'
 
@@ -11,7 +11,7 @@ export class Claim implements IClaim {
     Object.assign(this, args)
   }
 
-  static fromContents(claimType: IClaimType, claimContents: IClaimContents, owner: web3.PublicKey) {
+  static fromContents(claimType: IClaimType, claimContents: ClaimContents, owner: web3.PublicKey) {
     if (!validateSchema(claimType.schema, claimContents)) {
       throw new Error('Claim not valid')
     }
@@ -23,3 +23,5 @@ export class Claim implements IClaim {
     })
   }
 }
+
+export * from './utils'

@@ -118,6 +118,15 @@
             "type": "publicKey"
           },
           {
+            "name": "claimTypeHash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
             "name": "claimHash",
             "type": {
               "array": [

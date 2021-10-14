@@ -6,7 +6,7 @@ export const claimTypeSchema = {
     $id: {
       type: 'string',
       format: 'uri',
-      pattern: '^check:type:[0-9a-f]+$',
+      pattern: '^check:type:0x[0-9a-f]+$',
     },
     $schema: {
       type: 'string',

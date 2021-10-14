@@ -1,7 +1,7 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['test/**/*.(spec|test).ts'],
+  testMatch: ['<rootDir>/test/**/*.(spec|test).ts'],
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.json',

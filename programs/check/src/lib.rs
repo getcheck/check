@@ -27,10 +27,12 @@ pub mod check {
         bump: u8,
     ) -> ProgramResult {
         let attestation = &mut ctx.accounts.attestation;
+        let claim_type = &ctx.accounts.claim_type;
         let claim_hash = Hash::new_from_array(claim_hash);
 
         attestation.issuer = *ctx.accounts.issuer.key;
-        attestation.claim_type = *ctx.accounts.claim_type.to_account_info().key;
+        attestation.claim_type = *claim_type.to_account_info().key;
+        attestation.claim_type_hash = claim_type.hash;
         attestation.claim_hash = claim_hash.to_bytes();
         attestation.revoked = false;
         attestation.bump = bump;
@@ -72,7 +74,7 @@ pub struct AddAttestation<'info> {
         ],
         bump = bump,
         payer = issuer,
-        space = 8 + (32 + 32 + 32 + 1 + 1)
+        space = 8 + (32 + 32 + 32 + 32 + 1 + 1)
     )]
     pub attestation: Account<'info, Attestation>,
 
@@ -102,6 +104,7 @@ pub struct ClaimType {
 pub struct Attestation {
     pub issuer: Pubkey,
     pub claim_type: Pubkey,
+    pub claim_type_hash: [u8; 32],
     pub claim_hash: [u8; 32],
     pub revoked: bool,
     pub bump: u8,
