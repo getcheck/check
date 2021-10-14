@@ -58,117 +58,100 @@ const claimerWallet = new SeedWallet(claimerKeypair)
 const issuer = Identity.fromKeypair(issuerKeypair)
 const issuerWallet = new SeedWallet(issuerKeypair)
 
-const claimerSteps0 = async () => {
-  const provider = new Provider(connection, claimerWallet, options)
-  Check.init(provider, claimerWallet)
-  //
-  // Step 0: Create claim type & record it
-  //
-  const claimType = ClaimType.fromSchema(
-    { ...schema, title: Math.random().toString() },
-    claimerWallet.publicKey,
-  )
-  console.log(claimType)
-
-  const { publicKey, signature } = await claimType.record()
-  console.log(signature, publicKey.toString())
-
-  //
-  // Step 1: Build claim from contents
-  //
-  const claimContents: ClaimContents = { name: 'Pfizer', date: Date.now() }
-  const claim = Claim.fromContents(claimType, claimContents, claimerWallet.publicKey)
-  console.log(claim)
-
-  //
-  // Step 2: Request for attestation from the issuer
-  //
-  const request = await RequestForAttestation.fromClaim(claim)
-  console.log(request)
-
-  //
-  // Step 3: Send message to issuer
-  //
-  const body: IRequestForAttestationBody = {
-    content: { request },
-    type: MessageBodyType.REQUEST_FOR_ATTESTATION,
-  }
-  const message = new Message({
-    body,
-    senderPublicKey: claimerWallet.publicKey,
-    senderBoxPublicKey: claimerWallet.boxPublicKey,
-    receiverPublicKey: issuer.publicKey,
-  })
-  const encrypted = await message.encrypt(claimerWallet, issuer)
-  console.log(message, encrypted)
-
-  return { request, encrypted }
-}
-
-const issuerSteps = async (encryptedRequestForAttestation: IEncryptedMessage) => {
-  const provider = new Provider(connection, issuerWallet, options)
-  Check.init(provider, issuerWallet)
-  //
-  // Step 0: Fetch message, record & submit attestation
-  //
-  const decrypted = await Message.decrypt(encryptedRequestForAttestation, issuerWallet)
-  const content = decrypted.body.content as IRequestForAttestationBodyContent
-
-  // ... Is it okay?
-
-  const attestation = Attestation.fromRequestAndIssuer(content.request, issuer.publicKey)
-  console.log(attestation)
-
-  const { publicKey, signature } = await attestation.record()
-  console.log(signature, publicKey.toString())
-
-  //
-  // Step 1: Send message to claimer
-  //
-  const body: ISubmitAttestationBody = {
-    content: { attestation },
-    type: MessageBodyType.SUBMIT_ATTESTATION,
-  }
-  const message = new Message({
-    body,
-    senderPublicKey: issuerWallet.publicKey,
-    senderBoxPublicKey: issuerWallet.boxPublicKey,
-    receiverPublicKey: claimer.publicKey,
-  })
-  const encrypted = await message.encrypt(issuerWallet, claimer)
-  console.log(message, encrypted)
-
-  return { encrypted }
-}
-
-const claimerSteps1 = async (
-  request: IRequestForAttestation,
-  encryptedSubmitAttestation: IEncryptedMessage,
-) => {
-  const provider = new Provider(connection, claimerWallet, options)
-  Check.init(provider, claimerWallet)
-  //
-  // Step 0: Fetch message, create credential
-  //
-  const decrypted = await Message.decrypt(encryptedSubmitAttestation, claimerWallet)
-  const content = decrypted.body.content as ISubmitAttestationBodyContent
-
-  const credential = Credential.fromRequestAndAttestation(request, content.attestation)
-  console.log(credential)
-}
-
 const run = async () => {
-  const { request, encrypted: encryptedRequestForAttestation } = await claimerSteps0()
+  let request: IRequestForAttestation
+  let encryptedRequestForAttestation: IEncryptedMessage
+  let encryptedSubmitAttestation: IEncryptedMessage
+
+  // Claimer steps
+  {
+    Check.init(new Provider(connection, claimerWallet, options), claimerWallet)
+
+    // Step 0: Create claim type & record it
+
+    const claimType = ClaimType.fromSchema(
+      { ...schema, title: Math.random().toString() },
+      claimerWallet.publicKey,
+    )
+    console.log(claimType)
+
+    const { publicKey, signature } = await claimType.record()
+    console.log(signature, publicKey.toString())
+
+    // Step 1: Build claim from contents
+
+    const claimContents: ClaimContents = { name: 'Pfizer', date: Date.now() }
+    const claim = Claim.fromContents(claimType, claimContents, claimerWallet.publicKey)
+    console.log(claim)
+
+    // Step 2: Request for attestation from the issuer
+
+    request = await RequestForAttestation.fromClaim(claim)
+    console.log(request)
+
+    // Step 3: Send message to issuer
+
+    const body: IRequestForAttestationBody = {
+      content: { request },
+      type: MessageBodyType.REQUEST_FOR_ATTESTATION,
+    }
+    const message = new Message({
+      body,
+      senderPublicKey: claimerWallet.publicKey,
+      senderBoxPublicKey: claimerWallet.boxPublicKey,
+      receiverPublicKey: issuer.publicKey,
+    })
+    encryptedRequestForAttestation = await message.encrypt(claimerWallet, issuer)
+    console.log(message, encryptedRequestForAttestation)
+  }
 
   // ... Send the message decentralized or centralized. or via a raven :)
 
-  const { encrypted: encryptedSubmitAttestation } = await issuerSteps(
-    encryptedRequestForAttestation,
-  )
+  // Issuer steps
+  {
+    Check.init(new Provider(connection, issuerWallet, options), issuerWallet)
 
-  // ...
+    // Step 4: Fetch message, record & submit attestation
 
-  await claimerSteps1(request, encryptedSubmitAttestation)
+    const decrypted = await Message.decrypt(encryptedRequestForAttestation, issuerWallet)
+    const content = decrypted.body.content as IRequestForAttestationBodyContent
+
+    // ... Is it okay?
+
+    const attestation = Attestation.fromRequestAndIssuer(content.request, issuer.publicKey)
+    console.log(attestation)
+
+    const { publicKey, signature } = await attestation.record()
+    console.log(signature, publicKey.toString())
+
+    // Step 5: Send message to claimer
+
+    const body: ISubmitAttestationBody = {
+      content: { attestation },
+      type: MessageBodyType.SUBMIT_ATTESTATION,
+    }
+    const message = new Message({
+      body,
+      senderPublicKey: issuerWallet.publicKey,
+      senderBoxPublicKey: issuerWallet.boxPublicKey,
+      receiverPublicKey: claimer.publicKey,
+    })
+    encryptedSubmitAttestation = await message.encrypt(issuerWallet, claimer)
+    console.log(message, encryptedSubmitAttestation)
+  }
+
+  // Claimer steps again
+  {
+    Check.init(new Provider(connection, claimerWallet, options), claimerWallet)
+
+    // Step 6: Fetch message, create credential
+
+    const decrypted = await Message.decrypt(encryptedSubmitAttestation, claimerWallet)
+    const content = decrypted.body.content as ISubmitAttestationBodyContent
+
+    const credential = Credential.fromRequestAndAttestation(request, content.attestation)
+    console.log(credential)
+  }
 }
 
 run()
