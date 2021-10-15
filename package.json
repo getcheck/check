@@ -8,12 +8,13 @@
     "tutorial"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach run build",
+    "build": "yarn workspaces foreach -pt --no-private run build",
     "test": "jest --silent",
     "test:watch": "jest --watch",
     "fix:prettier": "prettier --write \"**/*.ts\"",
     "fix:eslint": "eslint . --format stylish --fix",
-    "fix": "yarn fix:eslint && yarn fix:prettier"
+    "fix": "yarn fix:eslint && yarn fix:prettier",
+    "publish": "yarn workspaces foreach -pt --no-private npm publish"
   },
   "devDependencies": {
     "@project-serum/anchor": "0.16.1",
