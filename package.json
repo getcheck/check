@@ -8,6 +8,7 @@
     "tutorial"
   ],
   "scripts": {
+    "build": "yarn workspaces foreach run build",
     "test": "jest --silent",
     "test:watch": "jest --watch",
     "fix:prettier": "prettier --write \"**/*.ts\"",
