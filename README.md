@@ -35,3 +35,6 @@ We want to finalize our SDK and services.
 We also want to make a fully decentralized message bus for communication between participants.
 Make user-friendly clients for participants. Both web and mobile versions.
 Integration with different issuer providers, KYC, etc.
+
+## Thanks
+Additionally, we would like to thank [Ingo Rübe](https://www.linkedin.com/in/ingo-ruebe-0915068/) for providing solid examples of how to work correctly with verifiable credentials.
