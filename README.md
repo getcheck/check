@@ -1,6 +1,15 @@
 # Check Protocol
 Verifiable credentials in the Web 3.0
 
+## Roadmap
+
+- [x] Smart contract registries
+- [x] Base classes: claim type, claim, credential, attestation, request for attestation
+- [x] Wallet with asymmetric encrypting
+- [ ] DID integration
+- [ ] Delegations
+- [ ] Refactor & docs
+
 ## Inspiration
 We are really concerned about personal data and the problem of access to it by third party companies.
 We were inspired to create a trusted internet, or more precisely, a protocol that would allow all participants to claim about themselves and receive some kind of services, but still stay anonymous.
