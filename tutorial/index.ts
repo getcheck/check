@@ -50,7 +50,7 @@ const issuerKeypair = web3.Keypair.fromSecretKey(
 )
 
 const options = Provider.defaultOptions()
-const connection = new web3.Connection('http://localhost:8899', options.preflightCommitment)
+const connection = new web3.Connection('https://api.devnet.solana.com', options.preflightCommitment)
 
 const claimer = Identity.fromKeypair(claimerKeypair)
 const claimerWallet = new SeedWallet(claimerKeypair)
@@ -62,6 +62,9 @@ const run = async () => {
   let request: IRequestForAttestation
   let encryptedRequestForAttestation: IEncryptedMessage
   let encryptedSubmitAttestation: IEncryptedMessage
+
+  console.log(claimer.publicKey.toString())
+  console.log(issuer.publicKey.toString())
 
   // Claimer steps
   {
