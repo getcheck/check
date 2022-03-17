@@ -59,7 +59,7 @@ describe('attestation', () => {
       })
       fail()
     } catch (err) {
-      expect(err.code).toEqual(167)
+      expect(err.code).toEqual(3012)
     }
   })
 })

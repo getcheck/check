@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::hash::*;
 
-declare_id!("DYL7EWPpyCfiJ4zisaeHghWYdo5EJPjdcQJ8YQJo6vbF");
+declare_id!("98ZZksmcbtKXafBzaRLzSrVWgvWZgkVkppr4P8cGrAXm");
 
 const CLAIM_TYPE_PREFIX: &str = "claim_type";
 const ATTESTATION_PREFIX: &str = "attestation";
@@ -10,7 +10,7 @@ const ATTESTATION_PREFIX: &str = "attestation";
 pub mod check {
     use super::*;
 
-    pub fn add_claim_type(ctx: Context<AddClaimType>, hash: [u8; 32], bump: u8) -> ProgramResult {
+    pub fn add_claim_type(ctx: Context<AddClaimType>, hash: [u8; 32], bump: u8) -> Result<()> {
         let claim_type = &mut ctx.accounts.claim_type;
         let hash = Hash::new_from_array(hash);
 
@@ -25,7 +25,7 @@ pub mod check {
         ctx: Context<AddAttestation>,
         claim_hash: [u8; 32],
         bump: u8,
-    ) -> ProgramResult {
+    ) -> Result<()> {
         let attestation = &mut ctx.accounts.attestation;
         let claim_type = &ctx.accounts.claim_type;
         let claim_hash = Hash::new_from_array(claim_hash);
@@ -50,7 +50,7 @@ pub struct AddClaimType<'info> {
             CLAIM_TYPE_PREFIX.as_bytes(),
             &hash
         ],
-        bump = bump,
+        bump,
         payer = payer,
         space = 8 + (32 + 32 + 1)
     )]
@@ -72,7 +72,7 @@ pub struct AddAttestation<'info> {
             issuer.key.as_ref(),
             &claim_hash
         ],
-        bump = bump,
+        bump,
         payer = issuer,
         space = 8 + (32 + 32 + 32 + 32 + 1 + 1)
     )]
@@ -110,7 +110,7 @@ pub struct Attestation {
     pub bump: u8,
 }
 
-#[error]
+#[error_code]
 pub enum ErrorCode {
     #[msg("You are not authorized to perform this action.")]
     Unauthorized,

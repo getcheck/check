@@ -11,6 +11,14 @@ export class Credential implements ICredential {
     this.attestation = Attestation.fromAttestation(args.attestation)
   }
 
+  get hash(): string {
+    return this.attestation.claimHash
+  }
+
+  get claimProperties(): Set<string> {
+    return new Set(Object.keys(this.request.claim.contents))
+  }
+
   static fromRequestAndAttestation(
     request: IRequestForAttestation,
     attestation: IAttestation,
@@ -30,14 +38,6 @@ export class Credential implements ICredential {
       input.request.rootHash === input.attestation.claimHash &&
       RequestForAttestation.verify(input.request)
     )
-  }
-
-  get hash(): string {
-    return this.attestation.claimHash
-  }
-
-  get claimProperties(): Set<string> {
-    return new Set(Object.keys(this.request.claim.contents))
   }
 
   verify(): boolean {

@@ -1,5 +1,4 @@
 import { ClaimProof, Hash, PartialClaim } from '@getcheck/types'
-import { BN } from '@project-serum/anchor'
 import { getIdForClaimTypeHash } from '../claimType'
 import { Crypto } from '../utils'
 
