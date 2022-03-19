@@ -1,4 +1,4 @@
-import { SeedWallet } from '@getcheck/api'
+import { SeedWallet } from '@getcheck/core'
 import { Provider, web3 } from '@project-serum/anchor'
 
 export const payer = web3.Keypair.fromSecretKey(

@@ -2,19 +2,19 @@ import { Provider, web3 } from '@project-serum/anchor'
 import Check, {
   Claim,
   ClaimType,
-  RequestForAttestation,
+  RequestAttestation,
   SeedWallet,
   Identity,
   Attestation,
   Credential,
-} from '@getcheck/api'
+} from '@getcheck/core'
 import {
   ClaimContents,
   ClaimTypeSchemaWithoutId,
   IEncryptedMessage,
-  IRequestForAttestation,
-  IRequestForAttestationBody,
-  IRequestForAttestationBodyContent,
+  IRequestAttestation,
+  IRequestAttestationBody,
+  IRequestAttestationBodyContent,
   ISubmitAttestationBody,
   ISubmitAttestationBodyContent,
   MessageBodyType,
@@ -59,8 +59,8 @@ const issuer = Identity.fromKeypair(issuerKeypair)
 const issuerWallet = new SeedWallet(issuerKeypair)
 
 const run = async () => {
-  let request: IRequestForAttestation
-  let encryptedRequestForAttestation: IEncryptedMessage
+  let request: IRequestAttestation
+  let encryptedRequestAttestation: IEncryptedMessage
   let encryptedSubmitAttestation: IEncryptedMessage
 
   console.log(claimer.publicKey.toString())
@@ -91,19 +91,19 @@ const run = async () => {
     console.log(claim)
 
     /**
-     * Step 2: Request for attestation from the issuer
+     * Step 2: Request attestation from the issuer
      */
 
-    request = await RequestForAttestation.fromClaim(claim)
+    request = await RequestAttestation.fromClaim(claim)
     console.log(request)
 
     /**
      * Step 3: Send message to issuer
      */
 
-    const body: IRequestForAttestationBody = {
+    const body: IRequestAttestationBody = {
       content: { request },
-      type: MessageBodyType.REQUEST_FOR_ATTESTATION,
+      type: MessageBodyType.REQUEST_ATTESTATION,
     }
     const message = new Message({
       body,
@@ -111,8 +111,8 @@ const run = async () => {
       senderBoxPublicKey: claimerWallet.boxPublicKey,
       receiverPublicKey: issuer.publicKey,
     })
-    encryptedRequestForAttestation = await message.encrypt(claimerWallet, issuer)
-    console.log(message, encryptedRequestForAttestation)
+    encryptedRequestAttestation = await message.encrypt(claimerWallet, issuer)
+    console.log(message, encryptedRequestAttestation)
   }
 
   // ... Send the message decentralized or centralized. or via a raven :)
@@ -125,8 +125,8 @@ const run = async () => {
      * Step 4: Fetch message, record & submit attestation
      */
 
-    const decrypted = await Message.decrypt(encryptedRequestForAttestation, issuerWallet)
-    const content = decrypted.body.content as IRequestForAttestationBodyContent
+    const decrypted = await Message.decrypt(encryptedRequestAttestation, issuerWallet)
+    const content = decrypted.body.content as IRequestAttestationBodyContent
     // ... Check claimer properties
     const attestation = Attestation.fromRequestAndIssuer(content.request, issuer.publicKey)
     console.log(attestation)

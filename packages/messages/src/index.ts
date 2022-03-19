@@ -1,5 +1,5 @@
 import { IEncryptedMessage, IIdentity, IMessage, MessageBody, Wallet } from '@getcheck/types'
-import { Crypto } from '@getcheck/api'
+import { Crypto } from '@getcheck/core'
 import { web3 } from '@project-serum/anchor'
 
 export class Message implements IMessage {

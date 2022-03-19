@@ -12,7 +12,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@getcheck/api": "workspace:^0.0.1",
+    "@getcheck/core": "workspace:^0.0.1",
     "@getcheck/types": "workspace:^0.0.1"
   },
   "devDependencies": {

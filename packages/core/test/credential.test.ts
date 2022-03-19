@@ -1,18 +1,18 @@
-import { IAttestation, IRequestForAttestation } from '@getcheck/types'
-import Check, { Attestation, Claim, ClaimType, Credential, RequestForAttestation } from '../src'
+import { IAttestation, IRequestAttestation } from '@getcheck/types'
+import Check, { Attestation, Claim, ClaimType, Credential, RequestAttestation } from '../src'
 import { claimContents, schema } from './mocks'
 import { payer, provider, wallet } from './utils'
 
 describe('credential', () => {
   const claimType = ClaimType.fromSchema(schema, payer.publicKey)
   const claim = Claim.fromContents(claimType, claimContents, payer.publicKey)
-  let request: IRequestForAttestation
+  let request: IRequestAttestation
   let attestation: IAttestation
 
   beforeAll(async () => {
     Check.init(provider, wallet)
 
-    request = await RequestForAttestation.fromClaim(claim)
+    request = await RequestAttestation.fromClaim(claim)
     attestation = Attestation.fromRequestAndIssuer(request, payer.publicKey)
   })
 

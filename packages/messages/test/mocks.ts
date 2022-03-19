@@ -1,4 +1,4 @@
-import { Identity, SeedWallet } from '@getcheck/api'
+import { Identity, SeedWallet } from '@getcheck/core'
 import { ClaimContents, ClaimTypeSchemaWithoutId } from '@getcheck/types'
 import { web3 } from '@project-serum/anchor'
 

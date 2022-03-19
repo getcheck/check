@@ -1,4 +1,4 @@
-import { Hash, ICredential, IRequestForAttestation } from '@getcheck/types'
+import { Hash, ICredential, IRequestAttestation } from '@getcheck/types'
 import { Crypto } from '../utils'
 
 export const getHashLeaves = (claimHashes: Hash[], legitimations: ICredential[]): Uint8Array[] => {
@@ -15,6 +15,6 @@ export const getHashRoot = (leaves: Uint8Array[]): string => {
   return Crypto.hashAsStr(Buffer.concat(leaves))
 }
 
-export const verifyClaimerSignature = (request: IRequestForAttestation): boolean => {
+export const verifyClaimerSignature = (request: IRequestAttestation): boolean => {
   return Crypto.verify(request.rootHash, request.claimerSignature, request.claim.owner)
 }

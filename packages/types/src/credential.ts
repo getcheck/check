@@ -1,7 +1,7 @@
 import { IAttestation } from './attestation'
-import { IRequestForAttestation } from './requestForAttestation'
+import { IRequestAttestation } from './requestAttestation'
 
 export interface ICredential {
   attestation: IAttestation
-  request: IRequestForAttestation
+  request: IRequestAttestation
 }

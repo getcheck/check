@@ -698,9 +698,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@getcheck/api@workspace:^0.0.1, @getcheck/api@workspace:packages/api":
+"@getcheck/core@workspace:^0.0.1, @getcheck/core@workspace:packages/core":
   version: 0.0.0-use.local
-  resolution: "@getcheck/api@workspace:packages/api"
+  resolution: "@getcheck/core@workspace:packages/core"
   dependencies:
     "@getcheck/types": "workspace:^0.0.1"
     "@project-serum/anchor": 0.22.1
@@ -724,7 +724,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@getcheck/messages@workspace:packages/messages"
   dependencies:
-    "@getcheck/api": "workspace:^0.0.1"
+    "@getcheck/core": "workspace:^0.0.1"
     "@getcheck/types": "workspace:^0.0.1"
     "@types/jest": ^27.4.1
     "@types/node": ^17.0.21
@@ -5926,7 +5926,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tutorial@workspace:tutorial"
   dependencies:
-    "@getcheck/api": "workspace:^0.0.1"
+    "@getcheck/core": "workspace:^0.0.1"
     "@getcheck/messages": "workspace:^0.0.1"
     "@getcheck/types": "workspace:^0.0.1"
     "@project-serum/anchor": 0.22.1

@@ -1,32 +1,32 @@
-import { Hash, IClaim, ICredential, IRequestForAttestation } from '@getcheck/types'
+import { Hash, IClaim, ICredential, IRequestAttestation } from '@getcheck/types'
 import context from '../context'
 import { hashClaimContents, verifyDisclosedClaimProperties } from '../claim'
 import { Crypto } from '../utils'
 import { getHashLeaves, getHashRoot, verifyClaimerSignature } from './utils'
 
-export class RequestForAttestation implements IRequestForAttestation {
+export class RequestAttestation implements IRequestAttestation {
   claim: IClaim
-  claimNonceMap: IRequestForAttestation['claimNonceMap']
-  claimHashes: IRequestForAttestation['claimHashes']
+  claimNonceMap: IRequestAttestation['claimNonceMap']
+  claimHashes: IRequestAttestation['claimHashes']
   claimerSignature: string
   legitimations: ICredential[]
   rootHash: Hash
 
-  constructor(args: IRequestForAttestation) {
+  constructor(args: IRequestAttestation) {
     Object.assign(this, args)
 
     this.verifySignature()
     this.verify()
   }
 
-  static fromRequest(input: IRequestForAttestation): RequestForAttestation {
-    return new RequestForAttestation(input)
+  static fromRequest(input: IRequestAttestation): RequestAttestation {
+    return new RequestAttestation(input)
   }
 
   static async fromClaim(
     claim: IClaim,
     legitimations?: ICredential[],
-  ): Promise<RequestForAttestation> {
+  ): Promise<RequestAttestation> {
     const wallet = context.wallet
 
     if (!claim.owner.equals(wallet.publicKey)) {
@@ -35,14 +35,14 @@ export class RequestForAttestation implements IRequestForAttestation {
 
     const { hashes: claimHashes, nonceMap: claimNonceMap } = hashClaimContents(claim)
 
-    const rootHash = RequestForAttestation.computeRootHash({
+    const rootHash = RequestAttestation.computeRootHash({
       claimHashes,
       legitimations,
     })
 
     const claimerSignature = Crypto.u8aToHex(await wallet.signMessage(Crypto.ciToU8a(rootHash)))
 
-    return new RequestForAttestation({
+    return new RequestAttestation({
       claim,
       legitimations: legitimations || [],
       claimHashes,
@@ -52,24 +52,24 @@ export class RequestForAttestation implements IRequestForAttestation {
     })
   }
 
-  static computeRootHash(input: Partial<IRequestForAttestation>): Hash {
+  static computeRootHash(input: Partial<IRequestAttestation>): Hash {
     const hashes: Uint8Array[] = getHashLeaves(input.claimHashes, input.legitimations)
     return getHashRoot(hashes)
   }
 
-  static verifyRootHash(input: IRequestForAttestation): boolean {
-    return input.rootHash === RequestForAttestation.computeRootHash(input)
+  static verifyRootHash(input: IRequestAttestation): boolean {
+    return input.rootHash === RequestAttestation.computeRootHash(input)
   }
 
-  static verifySignature(input: IRequestForAttestation): boolean {
+  static verifySignature(input: IRequestAttestation): boolean {
     return verifyClaimerSignature(input)
   }
 
-  static verify(input: IRequestForAttestation): boolean {
-    if (!RequestForAttestation.verifyRootHash(input)) {
+  static verify(input: IRequestAttestation): boolean {
+    if (!RequestAttestation.verifyRootHash(input)) {
       throw new Error('Root hash unverifiable')
     }
-    if (!RequestForAttestation.verifySignature(input)) {
+    if (!RequestAttestation.verifySignature(input)) {
       throw new Error('Signature unverifiable')
     }
 
@@ -92,10 +92,10 @@ export class RequestForAttestation implements IRequestForAttestation {
   }
 
   verifySignature(): boolean {
-    return RequestForAttestation.verifySignature(this)
+    return RequestAttestation.verifySignature(this)
   }
 
   verify(): boolean {
-    return RequestForAttestation.verify(this)
+    return RequestAttestation.verify(this)
   }
 }

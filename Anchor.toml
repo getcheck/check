@@ -9,4 +9,4 @@ cluster = "localnet"
 wallet = "/Users/vecheslav/.config/solana/id.json"
 
 [scripts]
-test = "yarn test"
+test = "yarn test:program"

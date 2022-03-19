@@ -1,9 +1,9 @@
-import Check, { Claim, ClaimType, RequestForAttestation } from '@getcheck/api'
+import Check, { Claim, ClaimType, RequestAttestation } from '@getcheck/core'
 import {
   IEncryptedMessage,
-  IRequestForAttestation,
-  IRequestForAttestationBody,
-  IRequestForAttestationBodyContent,
+  IRequestAttestation,
+  IRequestAttestationBody,
+  IRequestAttestationBodyContent,
   MessageBodyType,
 } from '@getcheck/types'
 import { Message } from '../src'
@@ -13,19 +13,19 @@ import { payer, provider, wallet } from './utils'
 describe('message', () => {
   const claimType = ClaimType.fromSchema(schema, payer.publicKey)
   const claim = Claim.fromContents(claimType, claimContents, payer.publicKey)
-  let request: IRequestForAttestation
+  let request: IRequestAttestation
   let encrypted: IEncryptedMessage
 
   beforeAll(async () => {
     Check.init(provider, wallet)
 
-    request = await RequestForAttestation.fromClaim(claim)
+    request = await RequestAttestation.fromClaim(claim)
   })
 
   test('encrypt', async () => {
-    const body: IRequestForAttestationBody = {
+    const body: IRequestAttestationBody = {
       content: { request },
-      type: MessageBodyType.REQUEST_FOR_ATTESTATION,
+      type: MessageBodyType.REQUEST_ATTESTATION,
     }
     const message = new Message({
       body,
@@ -40,7 +40,7 @@ describe('message', () => {
 
   test('decrypt', async () => {
     const decrypted = await Message.decrypt(encrypted, receiverWallet)
-    const { request } = decrypted.body.content as IRequestForAttestationBodyContent
+    const { request } = decrypted.body.content as IRequestAttestationBodyContent
     expect(request.claim.contents.foo).toBe(claimContents.foo)
   })
 })

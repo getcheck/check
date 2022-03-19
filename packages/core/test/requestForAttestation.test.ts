@@ -1,8 +1,8 @@
-import Check, { Claim, ClaimType, RequestForAttestation } from '../src'
+import Check, { Claim, ClaimType, RequestAttestation } from '../src'
 import { claimContents, schema } from './mocks'
 import { payer, provider, wallet } from './utils'
 
-describe('requestForAttestation', () => {
+describe('requestAttestation', () => {
   const claimType = ClaimType.fromSchema(schema, payer.publicKey)
   const claim = Claim.fromContents(claimType, claimContents, payer.publicKey)
 
@@ -11,7 +11,7 @@ describe('requestForAttestation', () => {
   })
 
   test('fromClaim', async () => {
-    const request = await RequestForAttestation.fromClaim(claim)
+    const request = await RequestAttestation.fromClaim(claim)
 
     expect(request.claimNonceMap).toHaveProperty(
       '0x2f88a0dc95b13c293db158539303fa7127036398e33afaaa3cffb034807ea7d8',

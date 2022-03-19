@@ -1,13 +1,13 @@
-import { IAttestation, ICredential, IRequestForAttestation } from '@getcheck/types'
-import { RequestForAttestation } from '../requestForAttestation'
+import { IAttestation, ICredential, IRequestAttestation } from '@getcheck/types'
+import { RequestAttestation } from '../requestAttestation'
 import { Attestation } from '../attestation'
 
 export class Credential implements ICredential {
-  request: RequestForAttestation
+  request: RequestAttestation
   attestation: Attestation
 
   constructor(args: ICredential) {
-    this.request = RequestForAttestation.fromRequest(args.request)
+    this.request = RequestAttestation.fromRequest(args.request)
     this.attestation = Attestation.fromAttestation(args.attestation)
   }
 
@@ -20,7 +20,7 @@ export class Credential implements ICredential {
   }
 
   static fromRequestAndAttestation(
-    request: IRequestForAttestation,
+    request: IRequestAttestation,
     attestation: IAttestation,
   ): Credential {
     return new Credential({
@@ -36,7 +36,7 @@ export class Credential implements ICredential {
 
     return (
       input.request.rootHash === input.attestation.claimHash &&
-      RequestForAttestation.verify(input.request)
+      RequestAttestation.verify(input.request)
     )
   }
 

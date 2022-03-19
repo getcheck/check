@@ -1,10 +1,10 @@
 {
-  "name": "@getcheck/api",
+  "name": "@getcheck/core",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "version": "0.0.1",
   "license": "MIT",
-  "description": "Check API",
+  "description": "Check Core",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",

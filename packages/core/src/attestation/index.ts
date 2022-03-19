@@ -2,7 +2,7 @@ import {
   Hash,
   IAttestation,
   IClaimType,
-  IRequestForAttestation,
+  IRequestAttestation,
   IAttestationAccount,
   RecordResult,
 } from '@getcheck/types'
@@ -41,7 +41,7 @@ export class Attestation implements IAttestation {
   }
 
   static fromRequestAndIssuer(
-    { rootHash, claim }: IRequestForAttestation,
+    { rootHash, claim }: IRequestAttestation,
     issuer: web3.PublicKey,
   ): Attestation {
     return new Attestation({

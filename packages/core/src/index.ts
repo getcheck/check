@@ -2,7 +2,7 @@ import { init } from './check'
 
 export * from './claimType'
 export * from './claim'
-export * from './requestForAttestation'
+export * from './requestAttestation'
 export * from './attestation'
 export * from './credential'
 export * from './wallet'
