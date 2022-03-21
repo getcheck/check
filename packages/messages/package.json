@@ -6,7 +6,7 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "license": "MIT",
   "description": "Check Messages",
   "scripts": {
@@ -16,8 +16,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@getcheck/core": "workspace:^0.0.1",
-    "@getcheck/types": "workspace:^0.0.1"
+    "@getcheck/core": "^0.0.3",
+    "@getcheck/types": "^0.0.3"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",

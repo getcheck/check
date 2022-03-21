@@ -7,10 +7,10 @@
     "start": "ts-node -P tsconfig.json index.ts"
   },
   "dependencies": {
-    "@getcheck/core": "workspace:^0.0.1",
-    "@getcheck/messages": "workspace:^0.0.1",
-    "@getcheck/types": "workspace:^0.0.1",
-    "@project-serum/anchor": "0.22.1"
+    "@getcheck/core": "workspace:*",
+    "@getcheck/messages": "workspace:*",
+    "@getcheck/types": "workspace:*",
+    "@project-serum/anchor": "0.23.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
