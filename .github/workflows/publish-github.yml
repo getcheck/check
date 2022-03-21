@@ -1,20 +1,16 @@
-name: Publish package to GitHub Packages
-on: workflow_dispatch
+name: PR
+on: [pull_request]
+
 jobs:
-  build:
+  pr:
+    strategy:
+      matrix:
+        step: ['test', 'build']
+    name: ${{ matrix.step }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@getcheck'
-      - run: yarn install --immutable
-      - run: yarn build
-      - run: yarn run publish --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: ${{ matrix.step }}
+      run: |
+        yarn install --immutable | grep -v 'YN0013'
+        yarn ${{ matrix.step }}

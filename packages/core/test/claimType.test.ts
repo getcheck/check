@@ -15,7 +15,7 @@ describe('claimType', () => {
     )
   })
 
-  test('record', async () => {
+  test.skip('record', async () => {
     const claimType = ClaimType.fromSchema(
       { ...schema, title: Math.random().toString() },
       payer.publicKey,
