@@ -1,5 +1,9 @@
 {
   "name": "check",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getcheck/check.git"
+  },
   "version": "0.0.1",
   "license": "MIT",
   "private": true,
@@ -9,12 +13,12 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach -pt --no-private run build",
-    "test:program": "jest --silent -c jest.program.config.ts",
+    "test:program": "jest --silent",
     "test": "yarn workspaces foreach -it --no-private run test",
     "fix:prettier": "prettier --write \"**/*.ts\"",
     "fix:eslint": "eslint . --format stylish --fix",
     "fix": "yarn fix:eslint && yarn fix:prettier",
-    "publish": "yarn workspaces foreach -pt --no-private npm publish"
+    "publish": "yarn workspaces foreach -pt --no-private npm publish --tolerate-republish"
   },
   "devDependencies": {
     "@project-serum/anchor": "0.22.1",

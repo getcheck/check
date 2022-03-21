@@ -1,10 +1,14 @@
 {
   "name": "@getcheck/messages",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getcheck/check.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "version": "0.0.1",
   "license": "MIT",
-  "description": "Check Messages API",
+  "description": "Check Messages",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",

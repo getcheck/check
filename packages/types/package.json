@@ -1,5 +1,9 @@
 {
   "name": "@getcheck/types",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getcheck/check.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "version": "0.0.1",
