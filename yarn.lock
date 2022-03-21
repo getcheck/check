@@ -476,11 +476,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@getcheck/core@^0.0.2, @getcheck/core@workspace:*, @getcheck/core@workspace:packages/core":
+"@getcheck/core@^0.0.3, @getcheck/core@workspace:*, @getcheck/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@getcheck/core@workspace:packages/core"
   dependencies:
-    "@getcheck/types": ^0.0.2
+    "@getcheck/types": ^0.0.3
     "@project-serum/anchor": 0.23.0
     "@types/jest": ^27.4.1
     "@types/jsonabc": ^2.3.1
@@ -502,8 +502,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@getcheck/messages@workspace:packages/messages"
   dependencies:
-    "@getcheck/core": ^0.0.2
-    "@getcheck/types": ^0.0.2
+    "@getcheck/core": ^0.0.3
+    "@getcheck/types": ^0.0.3
     "@types/jest": ^27.4.1
     "@types/node": ^17.0.21
     jest: ^27.5.1
@@ -514,7 +514,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@getcheck/types@^0.0.2, @getcheck/types@workspace:*, @getcheck/types@workspace:packages/types":
+"@getcheck/types@^0.0.3, @getcheck/types@workspace:*, @getcheck/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@getcheck/types@workspace:packages/types"
   dependencies:
