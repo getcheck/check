@@ -24,8 +24,6 @@ describe('credential', () => {
 
   test('present', async () => {
     const credential = Credential.fromRequestAndAttestation(request, attestation)
-    const presentation = credential.present(['foo'])
-
-    console.log(presentation)
+    credential.present(['foo'])
   })
 })

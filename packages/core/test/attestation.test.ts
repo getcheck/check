@@ -8,13 +8,6 @@ describe('attestation', () => {
 
   beforeAll(async () => {
     Check.init(provider, wallet)
-
-    try {
-      const [publicKey] = await claimType.getPDA()
-      await ClaimType.fetchAccount(publicKey)
-    } catch (err) {
-      await claimType.record()
-    }
   })
 
   test('fromRequestAndIssuer', async () => {
@@ -24,7 +17,14 @@ describe('attestation', () => {
     expect(attestation.claimTypeHash).toBe(claimType.hash)
   })
 
-  test('record', async () => {
+  test.skip('record', async () => {
+    try {
+      const [publicKey] = await claimType.getPDA()
+      await ClaimType.fetchAccount(publicKey)
+    } catch (err) {
+      await claimType.record()
+    }
+
     const claimDirty = Claim.fromContents(
       claimType,
       { ...claimContents, foo: Math.ceil(Math.random() * 10000) },
