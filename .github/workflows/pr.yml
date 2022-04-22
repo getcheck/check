@@ -1,5 +1,13 @@
-name: PR
-on: [pull_request]
+name: Packages
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+
 jobs:
   publish:
     runs-on: ubuntu-latest

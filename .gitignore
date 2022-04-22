@@ -45,6 +45,3 @@ target/
 
 # Env
 *keypair.json
-
-# Docs
-**/docs/api
