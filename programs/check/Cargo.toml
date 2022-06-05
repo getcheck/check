@@ -15,6 +15,7 @@ cpi = ["no-entrypoint"]
 default = []
 
 [dependencies]
-anchor-lang = "=0.22.1"
+anchor-lang = "=0.24.2"
 thiserror = "1.0.29"
 bs58 = "0.4.0"
+borsh = "0.9.3"

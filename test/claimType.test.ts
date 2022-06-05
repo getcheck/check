@@ -1,8 +1,8 @@
-import { Provider, setProvider, utils, web3 } from '@project-serum/anchor'
+import { AnchorProvider, setProvider, utils, web3 } from '@project-serum/anchor'
 import { findClaimTypePDA, program } from './utils'
 
 describe('claim type', () => {
-  const provider = Provider.env()
+  const provider = AnchorProvider.env()
 
   beforeAll(() => {
     setProvider(provider)
@@ -12,13 +12,14 @@ describe('claim type', () => {
     const hash = Buffer.from(utils.sha256.hash(Math.random().toString()), 'hex')
     const [claimType, bump] = await findClaimTypePDA(hash)
 
-    await program.rpc.addClaimType(hash, bump, {
-      accounts: {
+    await program.methods
+      .addClaimType([...hash], bump)
+      .accounts({
         claimType,
         payer: provider.wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
-      },
-    })
+      })
+      .rpc()
 
     const account = await program.account.claimType.fetch(claimType)
 
@@ -29,22 +30,24 @@ describe('claim type', () => {
     const hash = Buffer.from(utils.sha256.hash(Math.random().toString()), 'hex')
     const [claimType, bump] = await findClaimTypePDA(hash)
 
-    await program.rpc.addClaimType(hash, bump, {
-      accounts: {
+    await program.methods
+      .addClaimType([...hash], bump)
+      .accounts({
         claimType,
         payer: provider.wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
-      },
-    })
+      })
+      .rpc()
 
     try {
-      await program.rpc.addClaimType(hash, bump, {
-        accounts: {
+      await program.methods
+        .addClaimType([...hash], bump)
+        .accounts({
           claimType,
           payer: provider.wallet.publicKey,
           systemProgram: web3.SystemProgram.programId,
-        },
-      })
+        })
+        .rpc()
       fail()
     } catch (err) {
       expect(err.toString()).toEqual(
@@ -58,13 +61,14 @@ describe('claim type', () => {
     const [claimType, bump] = await findClaimTypePDA(invalidHash)
 
     try {
-      await program.rpc.addClaimType(invalidHash, bump, {
-        accounts: {
+      await program.methods
+        .addClaimType([...invalidHash], bump)
+        .accounts({
           claimType,
           payer: provider.wallet.publicKey,
           systemProgram: web3.SystemProgram.programId,
-        },
-      })
+        })
+        .rpc()
       fail()
     } catch (err) {
       expect(err)

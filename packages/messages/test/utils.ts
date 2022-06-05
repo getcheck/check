@@ -1,6 +1,7 @@
 import { SeedWallet } from '@getcheck/core'
-import { Provider, web3 } from '@project-serum/anchor'
+import { AnchorProvider, web3 } from '@project-serum/anchor'
 
+// DeAbSs8MdyNbVCfGiF9cNEEJYQRXwU7ijwmZZvqXPyAH
 export const payer = web3.Keypair.fromSecretKey(
   new Uint8Array([
     225, 60, 117, 68, 123, 252, 1, 200, 41, 251, 54, 121, 6, 167, 204, 18, 140, 168, 206, 74, 254,
@@ -10,7 +11,7 @@ export const payer = web3.Keypair.fromSecretKey(
   ]),
 )
 
-const options = Provider.defaultOptions()
+const options = AnchorProvider.defaultOptions()
 export const connection = new web3.Connection('http://localhost:8899', options.preflightCommitment)
 export const wallet = new SeedWallet(payer)
-export const provider = new Provider(connection, wallet, options)
+export const provider = new AnchorProvider(connection, wallet, options)

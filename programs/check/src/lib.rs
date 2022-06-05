@@ -1,10 +1,11 @@
 use anchor_lang::prelude::*;
-use anchor_lang::solana_program::hash::*;
+
+pub mod state;
+pub mod utils;
+
+use state::*;
 
 declare_id!("98ZZksmcbtKXafBzaRLzSrVWgvWZgkVkppr4P8cGrAXm");
-
-const CLAIM_TYPE_PREFIX: &str = "claim_type";
-const ATTESTATION_PREFIX: &str = "attestation";
 
 #[program]
 pub mod check {
@@ -12,10 +13,9 @@ pub mod check {
 
     pub fn add_claim_type(ctx: Context<AddClaimType>, hash: [u8; 32], bump: u8) -> Result<()> {
         let claim_type = &mut ctx.accounts.claim_type;
-        let hash = Hash::new_from_array(hash);
 
         claim_type.owner = *ctx.accounts.payer.key;
-        claim_type.hash = hash.to_bytes();
+        claim_type.hash = hash;
         claim_type.bump = bump;
 
         Ok(())
@@ -23,17 +23,17 @@ pub mod check {
 
     pub fn add_attestation(
         ctx: Context<AddAttestation>,
+        claimer: Pubkey,
         claim_hash: [u8; 32],
         bump: u8,
     ) -> Result<()> {
         let attestation = &mut ctx.accounts.attestation;
         let claim_type = &ctx.accounts.claim_type;
-        let claim_hash = Hash::new_from_array(claim_hash);
 
         attestation.issuer = *ctx.accounts.issuer.key;
+        attestation.claimer = claimer;
         attestation.claim_type = *claim_type.to_account_info().key;
-        attestation.claim_type_hash = claim_type.hash;
-        attestation.claim_hash = claim_hash.to_bytes();
+        attestation.claim_hash = claim_hash;
         attestation.revoked = false;
         attestation.bump = bump;
 
@@ -47,12 +47,12 @@ pub struct AddClaimType<'info> {
     #[account(
         init,
         seeds = [
-            CLAIM_TYPE_PREFIX.as_bytes(),
-            &hash
+            b"claim_type".as_ref(),
+            &hash,
         ],
         bump,
         payer = payer,
-        space = 8 + (32 + 32 + 1)
+        space = ClaimType::LEN,
     )]
     pub claim_type: Account<'info, ClaimType>,
 
@@ -63,25 +63,25 @@ pub struct AddClaimType<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(claim_hash: [u8; 32], bump: u8)]
+#[instruction(claimer: Pubkey, claim_hash: [u8; 32], bump: u8)]
 pub struct AddAttestation<'info> {
     #[account(
         init,
         seeds = [
-            ATTESTATION_PREFIX.as_bytes(),
+            b"attestation".as_ref(),
             issuer.key.as_ref(),
-            &claim_hash
+            &claim_hash,
         ],
         bump,
         payer = issuer,
-        space = 8 + (32 + 32 + 32 + 32 + 1 + 1)
+        space = Attestation::LEN,
     )]
     pub attestation: Account<'info, Attestation>,
 
     #[account(
         seeds = [
-            CLAIM_TYPE_PREFIX.as_bytes(),
-            &claim_type.hash
+            b"claim_type".as_ref(),
+            &claim_type.hash,
         ],
         bump = claim_type.bump,
     )]
@@ -93,27 +93,23 @@ pub struct AddAttestation<'info> {
     pub system_program: Program<'info, System>,
 }
 
-#[account]
-pub struct ClaimType {
-    pub owner: Pubkey,
-    pub hash: [u8; 32],
-    pub bump: u8,
-}
-
-#[account]
-pub struct Attestation {
-    pub issuer: Pubkey,
-    pub claim_type: Pubkey,
-    pub claim_type_hash: [u8; 32],
-    pub claim_hash: [u8; 32],
-    pub revoked: bool,
-    pub bump: u8,
-}
-
 #[error_code]
-pub enum ErrorCode {
-    #[msg("You are not authorized to perform this action.")]
+pub enum CheckError {
+    #[msg("You are not authorized to perform this action")]
     Unauthorized,
-    #[msg("Already attested")]
-    AlreadyAttested,
+
+    #[msg("Ed25519: Invalid public key")]
+    Ed25519InvalidPublicKey,
+
+    #[msg("Ed25519: Verification failed")]
+    Ed25519VerificationFailed,
+
+    #[msg("Verification: Invalid claimer")]
+    VerificationInvalidClaimer,
+
+    #[msg("Verification: Invalid issuer")]
+    VerificationInvalidIssuer,
+
+    #[msg("Verification: Invalid claim hash")]
+    VerificationInvalidClaimHash,
 }

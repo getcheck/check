@@ -7,7 +7,6 @@ export type RecordResult = {
 
 export interface IAttestationAccount {
   claimType: web3.PublicKey
-  claimTypeHash: Uint8Array
   claimHash: Uint8Array
   issuer: web3.PublicKey
   revoked: boolean

@@ -11,3 +11,10 @@ export const schema: ClaimTypeSchemaWithoutId = {
 }
 
 export const claimContents: ClaimContents = { foo: 123, bar: 'abc' }
+
+export const schemaWithZeroProperties: ClaimTypeSchemaWithoutId = {
+  $schema: 'http://getcheck.dev/draft-01/claim-type#',
+  title: 'Zero',
+  properties: {},
+  type: 'object',
+}

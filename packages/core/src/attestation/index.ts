@@ -16,6 +16,7 @@ export class Attestation implements IAttestation {
   claimHash: Hash
   claimTypeHash: IClaimType['hash']
   issuer: IAttestation['issuer']
+  claimer: IAttestation['claimer']
   revoked: boolean
 
   constructor(args: IAttestation) {
@@ -26,20 +27,6 @@ export class Attestation implements IAttestation {
     return new Attestation(input)
   }
 
-  static fromAccount({
-    claimHash,
-    claimTypeHash,
-    issuer,
-    revoked,
-  }: IAttestationAccount): Attestation {
-    return new Attestation({
-      claimHash: Crypto.u8aToHex(claimHash),
-      claimTypeHash: Crypto.u8aToHex(claimTypeHash),
-      issuer,
-      revoked,
-    })
-  }
-
   static fromRequestAndIssuer(
     { rootHash, claim }: IRequestAttestation,
     issuer: web3.PublicKey,
@@ -48,21 +35,30 @@ export class Attestation implements IAttestation {
       claimHash: rootHash,
       claimTypeHash: claim.claimTypeHash,
       issuer,
+      claimer: claim.owner,
       revoked: false,
     })
   }
 
   static async fetchAccount(publicKey: web3.PublicKey): Promise<IAttestationAccount> {
-    return (await context.program.account.attestation.fetch(publicKey)) as IAttestationAccount
+    return (await context.program.account.attestation.fetch(
+      publicKey,
+    )) as unknown as IAttestationAccount
   }
 
-  static async fetch(publicKey: web3.PublicKey): Promise<Attestation> {
-    const account = await Attestation.fetchAccount(publicKey)
-    return Attestation.fromAccount(account)
+  static async getPDA(attestation: IAttestation) {
+    return findAttestationPDA(attestation.issuer, Crypto.hexToU8a(attestation.claimHash))
+  }
+
+  static async validate(attestation: IAttestation): Promise<boolean> {
+    const [pda] = await Attestation.getPDA(attestation)
+    const account = await Attestation.fetchAccount(pda)
+
+    return account.issuer.equals(attestation.issuer) && !account.revoked
   }
 
   async getPDA() {
-    return findAttestationPDA(this.issuer, Crypto.hexToU8a(this.claimHash))
+    return Attestation.getPDA(this)
   }
 
   async record(): Promise<RecordResult> {
@@ -70,19 +66,24 @@ export class Attestation implements IAttestation {
     const [attestation, bump] = await this.getPDA()
     const [claimType] = await findClaimTypePDA(Crypto.hexToU8a(this.claimTypeHash))
 
-    const signature = await context.program.rpc.addAttestation(claimHash, bump, {
-      accounts: {
+    const signature = await context.program.methods
+      .addAttestation(this.claimer, [...claimHash], bump)
+      .accounts({
         attestation,
         claimType,
         issuer: this.issuer,
         systemProgram: web3.SystemProgram.programId,
-      },
-    })
+      })
+      .rpc()
 
     return {
       signature,
       publicKey: attestation,
     }
+  }
+
+  async validate(): Promise<boolean> {
+    return Attestation.validate(this)
   }
 }
 

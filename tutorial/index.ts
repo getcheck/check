@@ -1,4 +1,4 @@
-import { Provider, web3 } from '@project-serum/anchor'
+import { AnchorProvider, web3 } from '@project-serum/anchor'
 import Check, {
   Claim,
   ClaimType,
@@ -20,6 +20,8 @@ import {
   MessageBodyType,
 } from '@getcheck/types'
 import { Message } from '@getcheck/messages'
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
 
 export const schema: ClaimTypeSchemaWithoutId = {
   $schema: 'http://getcheck.dev/draft-01/claim-type#',
@@ -32,6 +34,7 @@ export const schema: ClaimTypeSchemaWithoutId = {
 }
 
 // Dont't forgot airdrop
+// DeAbSs8MdyNbVCfGiF9cNEEJYQRXwU7ijwmZZvqXPyAH
 const claimerKeypair = web3.Keypair.fromSecretKey(
   new Uint8Array([
     225, 60, 117, 68, 123, 252, 1, 200, 41, 251, 54, 121, 6, 167, 204, 18, 140, 168, 206, 74, 254,
@@ -40,6 +43,8 @@ const claimerKeypair = web3.Keypair.fromSecretKey(
     66, 138,
   ]),
 )
+
+// LUDEQbkzpjgtBVzMtzYZGKQ7pcyFsSajbeXNm4KJXtq
 const issuerKeypair = web3.Keypair.fromSecretKey(
   new Uint8Array([
     52, 26, 219, 222, 171, 169, 170, 248, 210, 100, 252, 80, 187, 33, 185, 122, 225, 41, 68, 20,
@@ -49,8 +54,11 @@ const issuerKeypair = web3.Keypair.fromSecretKey(
   ]),
 )
 
-const options = Provider.defaultOptions()
-const connection = new web3.Connection('https://api.devnet.solana.com', options.preflightCommitment)
+const argv = yargs(hideBin(process.argv)).argv
+const rpc = (argv.rpc as string) || 'https://api.devnet.solana.com'
+
+const options = AnchorProvider.defaultOptions()
+const connection = new web3.Connection(rpc, options.preflightCommitment)
 
 const claimer = Identity.fromKeypair(claimerKeypair)
 const claimerWallet = new SeedWallet(claimerKeypair)
@@ -68,7 +76,7 @@ const run = async () => {
 
   // Claimer steps
   {
-    Check.init(new Provider(connection, claimerWallet, options), claimerWallet)
+    Check.init(new AnchorProvider(connection, claimerWallet, options), claimerWallet)
 
     /**
      * Step 0: Create claim type & record it
@@ -119,7 +127,7 @@ const run = async () => {
 
   // Issuer steps
   {
-    Check.init(new Provider(connection, issuerWallet, options), issuerWallet)
+    Check.init(new AnchorProvider(connection, issuerWallet, options), issuerWallet)
 
     /**
      * Step 4: Fetch message, record & submit attestation
@@ -154,7 +162,7 @@ const run = async () => {
 
   // Claimer steps again
   {
-    Check.init(new Provider(connection, claimerWallet, options), claimerWallet)
+    Check.init(new AnchorProvider(connection, claimerWallet, options), claimerWallet)
 
     /**
      * Step 6: Fetch message, create credential

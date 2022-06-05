@@ -63,7 +63,7 @@ export class Message implements IMessage {
     const { nonce } = encrypted
 
     const hash = Crypto.hashAsStr(ciphertext + nonce + this.createdAt)
-    const signature = Crypto.u8aToHex(await wallet.signMessage(Crypto.ciToU8a(hash)))
+    const signature = await wallet.signMessage(Crypto.ciToU8a(hash))
 
     return {
       ciphertext,

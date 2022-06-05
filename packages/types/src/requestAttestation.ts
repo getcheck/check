@@ -6,7 +6,7 @@ export interface IRequestAttestation {
   claim: IClaim
   claimNonceMap: Record<Hash, string>
   claimHashes: Hash[]
-  claimerSignature: string
+  claimerSignature: Uint8Array
   legitimations: ICredential[]
   rootHash: Hash
 }

@@ -1,16 +1,14 @@
 import { Wallet } from '@getcheck/types'
-import { Idl, Program, Provider, web3 } from '@project-serum/anchor'
-import idlJson from './check.json'
+import { Program, AnchorProvider, web3 } from '@project-serum/anchor'
 import { config } from './config'
 import context from './context'
+import { Check, IDL } from './idl'
 
-export const init = (provider: Provider, wallet: Wallet) => {
-  const idl = idlJson as Idl
-
+export const init = (provider: AnchorProvider, wallet: Wallet) => {
   if (!provider.wallet.publicKey.equals(wallet.publicKey)) {
     throw new Error('Wallet mismatch')
   }
 
-  context.program = new Program(idl, new web3.PublicKey(config.programs.check), provider)
+  context.program = new Program<Check>(IDL, new web3.PublicKey(config.programs.check), provider)
   context.wallet = wallet
 }

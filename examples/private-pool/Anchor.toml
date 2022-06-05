@@ -1,0 +1,18 @@
+[features]
+seeds = false
+[programs.localnet]
+private_pool = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn test:program"
+
+[[test.genesis]]
+address = "98ZZksmcbtKXafBzaRLzSrVWgvWZgkVkppr4P8cGrAXm"
+program = "../../target/deploy/check.so"

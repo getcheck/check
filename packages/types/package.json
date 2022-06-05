@@ -6,7 +6,7 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -14,10 +14,10 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@project-serum/anchor": "0.23.0"
+    "@project-serum/anchor": "0.24.2"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.3"
   }
 }

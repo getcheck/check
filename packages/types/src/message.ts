@@ -94,5 +94,5 @@ export type IEncryptedMessage = Pick<
   ciphertext: string
   nonce: string
   hash: Hash
-  signature: string
+  signature: Uint8Array
 }

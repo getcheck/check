@@ -4,35 +4,39 @@
     "type": "git",
     "url": "https://github.com/getcheck/check.git"
   },
-  "version": "0.0.1",
+  "version": "0.0.4",
   "license": "MIT",
   "private": true,
   "workspaces": [
     "packages/*",
+    "examples/*",
     "tutorial"
   ],
   "scripts": {
+    "idl": "cp target/types/check.ts packages/core/src/idl.ts && yarn fix:eslint:idl",
+    "prebuild": "yarn idl",
     "build": "yarn workspaces foreach -pt --no-private run build",
     "test:program": "jest --silent",
     "test": "yarn workspaces foreach -it --no-private run test",
     "fix:prettier": "prettier --write \"**/*.ts\"",
     "fix:eslint": "eslint . --format stylish --fix",
+    "fix:eslint:idl": "eslint packages/**/idl.ts --format stylish --fix",
     "fix": "yarn fix:eslint && yarn fix:prettier",
     "publish": "yarn workspaces foreach -pt --no-private npm publish --tolerate-republish"
   },
   "devDependencies": {
-    "@project-serum/anchor": "0.23.0",
+    "@project-serum/anchor": "0.24.2",
     "@types/jest": "^27.4.1",
-    "@typescript-eslint/eslint-plugin": "^5.15.0",
-    "@typescript-eslint/parser": "^5.15.0",
-    "eslint": "^8.11.0",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.5.1",
-    "prettier": "^2.6.0",
+    "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.1.3",
-    "typescript": "^4.6.2"
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.6.3"
   },
   "commitlint": {
     "extends": [

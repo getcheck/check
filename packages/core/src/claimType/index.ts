@@ -30,7 +30,9 @@ export class ClaimType implements IClaimType {
   }
 
   static async fetchAccount(publicKey: web3.PublicKey): Promise<IClaimTypeAccount> {
-    return (await context.program.account.claimType.fetch(publicKey)) as IClaimTypeAccount
+    return (await context.program.account.claimType.fetch(
+      publicKey,
+    )) as unknown as IClaimTypeAccount
   }
 
   async getPDA() {
@@ -42,13 +44,14 @@ export class ClaimType implements IClaimType {
     const [claimType, bump] = await this.getPDA()
     const wallet = context.wallet
 
-    const signature = await context.program.rpc.addClaimType(hash, bump, {
-      accounts: {
+    const signature = await context.program.methods
+      .addClaimType([...hash], bump)
+      .accounts({
         claimType,
         payer: wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
-      },
-    })
+      })
+      .rpc()
 
     return {
       signature,
