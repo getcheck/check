@@ -1,10 +1,10 @@
 <div align="center">
-  <img height="128px" style="border-radius: 9999px;" src="https://cdn.discordapp.com/icons/900305071110234122/0c6cc6156cca81c1e5354c2744f7f2b1.webp?size=512" />
+  <img height="128px" src="https://raw.githubusercontent.com/getcheck/check-website/9782f8f143222d4f780c24608b2151891e7db5e2/public/logo512.png" />
 
   <h1>Check Protocol</h1>
 
   <p>
-    <strong>Self-sovereign, anonymous, verifiable credentials in Web 3.0.</strong>
+    Self-sovereign, anonymous, verifiable credentials in Web 3.0.
   </p>
 
   <p>
