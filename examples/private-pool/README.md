@@ -3,7 +3,7 @@ This example contains a simple deposit instruction that demonstrates the verific
 
 ![Private Pool](./private-pool.svg)
 
-# Example
+## Example
 Add this verification to your program:
 ```rust
 pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
@@ -35,7 +35,7 @@ await program.methods
   .rpc()
 ```
 
-# Test
+## Test
 Run this command:
 ```
 anchor test
