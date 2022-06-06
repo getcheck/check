@@ -17,15 +17,6 @@ impl Attestation {
 
     /// Check if the claimer is the same as the signer,
     /// and the claim hash is the same as the message from Ed25519 instruction
-    ///
-    /// Arguments:
-    ///
-    /// * `ix`: The instruction to verify
-    /// * `claimer`: The claimer public key.
-    ///
-    /// Returns:
-    ///
-    /// A Result<()>
     pub fn verify(&self, ix: Instruction, claimer: &Pubkey) -> Result<bool> {
         let Ed25519VerificationResult { message, signer } = verify_ed25519_instruction(&ix)?;
 
