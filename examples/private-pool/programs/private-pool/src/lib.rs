@@ -1,12 +1,8 @@
-use std::str::FromStr;
-
 use anchor_lang::{prelude::*, solana_program::sysvar::instructions};
 use check::{program::Check, state::Attestation};
+use solana_program::pubkey;
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
-
-const REQUIRED_CLAIM_TYPE: &str = "HfMoaBz3mdxKiDpr4Cja5YBqWhSW53ET9FY31rCGHQf4";
-const TRUSTED_ISSUER: &str = "DeAbSs8MdyNbVCfGiF9cNEEJYQRXwU7ijwmZZvqXPyAH";
 
 #[program]
 pub mod private_pool {
@@ -31,8 +27,8 @@ pub struct Deposit<'info> {
             instructions::load_instruction_at_checked(0, &instructions_sysvar)?,
             &user.key(),
         )?,
-        constraint = attestation.issuer == Pubkey::from_str(TRUSTED_ISSUER).unwrap(),
-        constraint = attestation.claim_type == Pubkey::from_str(REQUIRED_CLAIM_TYPE).unwrap(),
+        constraint = attestation.issuer == pubkey!("DeAbSs8MdyNbVCfGiF9cNEEJYQRXwU7ijwmZZvqXPyAH"),
+        constraint = attestation.claim_type == pubkey!("HfMoaBz3mdxKiDpr4Cja5YBqWhSW53ET9FY31rCGHQf4"),
     )]
     pub attestation: Account<'info, Attestation>,
 

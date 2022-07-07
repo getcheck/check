@@ -1,7 +1,5 @@
 # Example: Private Pool
-This example contains a simple deposit instruction that demonstrates the verification of the liquidity provider of the required credentials with Check Protocol
-
-<img src="./private-pool.svg" alt="Private Pool" width="70%"/>
+This example contains a simple deposit instruction that demonstrates the verification of the liquidity provider of the required credentials with Check Protocol.
 
 ## Example
 Add this verification to your program:

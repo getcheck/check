@@ -20,5 +20,6 @@ overflow-checks = true
 
 [dependencies]
 anchor-lang = "0.24.2"
+solana-program = "1.9.18"
 check = { path = "../../../../programs/check", features = ["cpi"] }
 
