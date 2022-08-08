@@ -1,4 +1,4 @@
-use anchor_lang::{prelude::*, solana_program::sysvar::instructions};
+use anchor_lang::prelude::*;
 use check::{program::Check, state::Attestation};
 use solana_program::pubkey;
 
@@ -23,10 +23,7 @@ pub struct Deposit<'info> {
     #[account(
         owner = *check_program.key,
         // Verify attestation
-        constraint = attestation.verify(
-            instructions::load_instruction_at_checked(0, &instructions_sysvar)?,
-            &user.key(),
-        )?,
+        constraint = attestation.verify(&user.key())?,
         constraint = attestation.issuer == pubkey!("DeAbSs8MdyNbVCfGiF9cNEEJYQRXwU7ijwmZZvqXPyAH"),
         constraint = attestation.claim_type == pubkey!("HfMoaBz3mdxKiDpr4Cja5YBqWhSW53ET9FY31rCGHQf4"),
     )]
@@ -36,8 +33,4 @@ pub struct Deposit<'info> {
     pub user: Signer<'info>,
 
     pub check_program: Program<'info, Check>,
-
-    /// CHECK: Instructions sysvar
-    #[account(address = instructions::ID)]
-    pub instructions_sysvar: UncheckedAccount<'info>,
 }

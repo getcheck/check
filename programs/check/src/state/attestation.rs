@@ -1,6 +1,6 @@
-use anchor_lang::{prelude::*, solana_program::instruction::Instruction};
+use anchor_lang::prelude::*;
 
-use crate::{utils::*, CheckError};
+use crate::CheckError;
 
 #[account]
 pub struct Attestation {
@@ -16,16 +16,9 @@ impl Attestation {
     pub const LEN: usize = 8 + (32 + 32 + 32 + 32 + 1 + 1);
 
     /// Check if the claimer is the same as the signer,
-    /// and the claim hash is the same as the message from Ed25519 instruction
-    pub fn verify(&self, ix: Instruction, claimer: &Pubkey) -> Result<bool> {
-        let Ed25519VerificationResult { message, signer } = verify_ed25519_instruction(&ix)?;
-
-        if !self.claimer.eq(claimer) || !signer.eq(claimer) {
+    pub fn verify(&self, signer: &Pubkey) -> Result<bool> {
+        if !self.claimer.eq(signer) {
             return err!(CheckError::VerificationInvalidClaimer);
-        }
-
-        if self.claim_hash != message.as_ref() {
-            return err!(CheckError::VerificationInvalidClaimHash);
         }
 
         Ok(true)

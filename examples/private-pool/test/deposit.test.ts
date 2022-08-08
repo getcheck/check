@@ -1,4 +1,4 @@
-import { BN, setProvider, web3 } from '@project-serum/anchor'
+import { BN, setProvider } from '@project-serum/anchor'
 import { airdrop, program, provider, wallet } from './utils'
 import Check from '@getcheck/core'
 import { createCredential } from './mocks'
@@ -21,9 +21,7 @@ describe('deposit', () => {
         user: wallet.publicKey,
         attestation: attestationPublicKey,
         checkProgram: checkProgram.programId,
-        instructionsSysvar: web3.SYSVAR_INSTRUCTIONS_PUBKEY,
       })
-      .preInstructions([credential.request.ed25519Instruction()])
       .signers([wallet.payer])
       .rpc({ commitment: 'confirmed' })
 

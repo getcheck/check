@@ -48,6 +48,11 @@ export type Check = {
           isSigner: false
         },
         {
+          name: 'claimer'
+          isMut: false
+          isSigner: false
+        },
+        {
           name: 'issuer'
           isMut: true
           isSigner: true
@@ -59,10 +64,6 @@ export type Check = {
         },
       ]
       args: [
-        {
-          name: 'claimer'
-          type: 'publicKey'
-        },
         {
           name: 'claimHash'
           type: {
@@ -138,7 +139,32 @@ export type Check = {
     {
       code: 6000
       name: 'Unauthorized'
-      msg: 'You are not authorized to perform this action.'
+      msg: 'You are not authorized to perform this action'
+    },
+    {
+      code: 6001
+      name: 'Ed25519InvalidPublicKey'
+      msg: 'Ed25519: Invalid public key'
+    },
+    {
+      code: 6002
+      name: 'Ed25519VerificationFailed'
+      msg: 'Ed25519: Verification failed'
+    },
+    {
+      code: 6003
+      name: 'VerificationInvalidClaimer'
+      msg: 'Verification: Invalid claimer'
+    },
+    {
+      code: 6004
+      name: 'VerificationInvalidIssuer'
+      msg: 'Verification: Invalid issuer'
+    },
+    {
+      code: 6005
+      name: 'VerificationInvalidClaimHash'
+      msg: 'Verification: Invalid claim hash'
     },
   ]
 }
@@ -193,6 +219,11 @@ export const IDL: Check = {
           isSigner: false,
         },
         {
+          name: 'claimer',
+          isMut: false,
+          isSigner: false,
+        },
+        {
           name: 'issuer',
           isMut: true,
           isSigner: true,
@@ -204,10 +235,6 @@ export const IDL: Check = {
         },
       ],
       args: [
-        {
-          name: 'claimer',
-          type: 'publicKey',
-        },
         {
           name: 'claimHash',
           type: {
@@ -283,7 +310,32 @@ export const IDL: Check = {
     {
       code: 6000,
       name: 'Unauthorized',
-      msg: 'You are not authorized to perform this action.',
+      msg: 'You are not authorized to perform this action',
+    },
+    {
+      code: 6001,
+      name: 'Ed25519InvalidPublicKey',
+      msg: 'Ed25519: Invalid public key',
+    },
+    {
+      code: 6002,
+      name: 'Ed25519VerificationFailed',
+      msg: 'Ed25519: Verification failed',
+    },
+    {
+      code: 6003,
+      name: 'VerificationInvalidClaimer',
+      msg: 'Verification: Invalid claimer',
+    },
+    {
+      code: 6004,
+      name: 'VerificationInvalidIssuer',
+      msg: 'Verification: Invalid issuer',
+    },
+    {
+      code: 6005,
+      name: 'VerificationInvalidClaimHash',
+      msg: 'Verification: Invalid claim hash',
     },
   ],
 }

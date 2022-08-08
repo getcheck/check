@@ -54,8 +54,13 @@ const issuerKeypair = web3.Keypair.fromSecretKey(
   ]),
 )
 
-const argv = yargs(hideBin(process.argv)).argv
-const rpc = (argv.rpc as string) || 'https://api.devnet.solana.com'
+const argv = yargs(hideBin(process.argv))
+  .options({
+    rpc: { type: 'string', default: 'https://api.devnet.solana.com' },
+  })
+  .parseSync()
+
+const rpc = argv.rpc
 
 const options = AnchorProvider.defaultOptions()
 const connection = new web3.Connection(rpc, options.preflightCommitment)

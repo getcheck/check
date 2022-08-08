@@ -23,7 +23,6 @@ pub mod check {
 
     pub fn add_attestation(
         ctx: Context<AddAttestation>,
-        claimer: Pubkey,
         claim_hash: [u8; 32],
         bump: u8,
     ) -> Result<()> {
@@ -31,7 +30,7 @@ pub mod check {
         let claim_type = &ctx.accounts.claim_type;
 
         attestation.issuer = *ctx.accounts.issuer.key;
-        attestation.claimer = claimer;
+        attestation.claimer = *ctx.accounts.claimer.key;
         attestation.claim_type = *claim_type.to_account_info().key;
         attestation.claim_hash = claim_hash;
         attestation.revoked = false;
@@ -63,7 +62,7 @@ pub struct AddClaimType<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(claimer: Pubkey, claim_hash: [u8; 32], bump: u8)]
+#[instruction(claim_hash: [u8; 32], bump: u8)]
 pub struct AddAttestation<'info> {
     #[account(
         init,
@@ -86,6 +85,9 @@ pub struct AddAttestation<'info> {
         bump = claim_type.bump,
     )]
     pub claim_type: Account<'info, ClaimType>,
+
+    /// CHECK: Claimer
+    pub claimer: UncheckedAccount<'info>,
 
     #[account(mut)]
     pub issuer: Signer<'info>,

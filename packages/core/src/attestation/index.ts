@@ -67,10 +67,11 @@ export class Attestation implements IAttestation {
     const [claimType] = await findClaimTypePDA(Crypto.hexToU8a(this.claimTypeHash))
 
     const signature = await context.program.methods
-      .addAttestation(this.claimer, [...claimHash], bump)
+      .addAttestation([...claimHash], bump)
       .accounts({
         attestation,
         claimType,
+        claimer: this.claimer,
         issuer: this.issuer,
         systemProgram: web3.SystemProgram.programId,
       })

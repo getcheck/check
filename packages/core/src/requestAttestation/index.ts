@@ -3,7 +3,6 @@ import context from '../context'
 import { hashClaimContents, verifyDisclosedClaimProperties } from '../claim'
 import { Crypto } from '../utils'
 import { getHashLeaves, getHashRoot, verifyClaimerSignature } from './utils'
-import { web3 } from '@project-serum/anchor'
 
 export class RequestAttestation implements IRequestAttestation {
   claim: IClaim
@@ -94,20 +93,6 @@ export class RequestAttestation implements IRequestAttestation {
     return true
   }
 
-  /**
-   * Create an Ed25519 instruction to verify signature of root hash on program
-   *
-   * @param input Request attestation
-   * @returns Transaction instruction
-   */
-  static ed25519Instruction(input: IRequestAttestation): web3.TransactionInstruction {
-    return web3.Ed25519Program.createInstructionWithPublicKey({
-      publicKey: input.claim.owner.toBytes(),
-      message: Crypto.ciToU8a(input.rootHash),
-      signature: input.claimerSignature,
-    })
-  }
-
   removeClaimProperties(properties: string[]) {
     properties.forEach((key) => {
       delete this.claim.contents[key]
@@ -122,9 +107,5 @@ export class RequestAttestation implements IRequestAttestation {
 
   verify(): boolean {
     return RequestAttestation.verify(this)
-  }
-
-  ed25519Instruction(): web3.TransactionInstruction {
-    return RequestAttestation.ed25519Instruction(this)
   }
 }

@@ -28,10 +28,11 @@ describe('attestation', () => {
     const [claimType] = await findClaimTypePDA(claimTypeHash)
 
     await program.methods
-      .addAttestation(claimer, [...claimHash], bump)
+      .addAttestation([...claimHash], bump)
       .accounts({
         attestation,
         claimType,
+        claimer,
         issuer,
         systemProgram: web3.SystemProgram.programId,
       })
@@ -55,10 +56,11 @@ describe('attestation', () => {
 
     try {
       await program.methods
-        .addAttestation(claimer, [...claimHash], bump)
+        .addAttestation([...claimHash], bump)
         .accounts({
           attestation,
           claimType,
+          claimer,
           issuer,
           systemProgram: web3.SystemProgram.programId,
         })
