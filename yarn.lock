@@ -466,11 +466,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@getcheck/core@^0.0.4, @getcheck/core@workspace:*, @getcheck/core@workspace:packages/core":
+"@getcheck/core@^0.0.5, @getcheck/core@workspace:*, @getcheck/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@getcheck/core@workspace:packages/core"
   dependencies:
-    "@getcheck/types": ^0.0.4
+    "@getcheck/types": ^0.0.5
     "@project-serum/anchor": 0.25.0
     "@types/jest": ^28.1.6
     "@types/jsonabc": ^2.3.1
@@ -492,8 +492,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@getcheck/messages@workspace:packages/messages"
   dependencies:
-    "@getcheck/core": ^0.0.4
-    "@getcheck/types": ^0.0.4
+    "@getcheck/core": ^0.0.5
+    "@getcheck/types": ^0.0.5
     "@types/jest": ^28.1.6
     "@types/node": ^18.6.5
     jest: ^28.1.3
@@ -504,7 +504,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@getcheck/types@^0.0.4, @getcheck/types@workspace:*, @getcheck/types@workspace:packages/types":
+"@getcheck/types@^0.0.5, @getcheck/types@workspace:*, @getcheck/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@getcheck/types@workspace:packages/types"
   dependencies:
@@ -4437,7 +4437,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "private-pool@workspace:examples/private-pool"
   dependencies:
-    "@getcheck/core": ^0.0.4
+    "@getcheck/core": ^0.0.5
     "@project-serum/anchor": 0.25.0
     "@types/jest": ^28.1.6
     jest: ^28.1.3

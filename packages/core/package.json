@@ -6,7 +6,7 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "description": "Check Core",
   "scripts": {
@@ -16,7 +16,7 @@
     "test:integration": "jest --selectProjects=integration"
   },
   "dependencies": {
-    "@getcheck/types": "^0.0.4",
+    "@getcheck/types": "^0.0.5",
     "@project-serum/anchor": "0.25.0",
     "@types/jsonabc": "^2.3.1",
     "ajv": "^8.11.0",
