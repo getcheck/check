@@ -492,7 +492,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@getcheck/did@workspace:packages/did"
   dependencies:
+    "@types/jest": ^28.1.6
+    jest: ^28.1.3
     rimraf: ^3.0.2
+    ts-jest: ^28.0.7
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft

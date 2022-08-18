@@ -1,13 +1,8 @@
 import { Did } from './did'
 import { DidDocument } from './didDocument'
-
-export type DidResolutionMetadata = {
-  contentType: string
-}
-
-export type DidDocumentMetadata = {
-  deactivated: boolean
-}
+import { DidResolutionMetadata } from './didResolutionMetadata'
+import { DidDocumentMetadata } from './didDocumentMetadata'
+import { DidResolutionOptions } from './didResolutionOptions'
 
 export type DidResolutionResult = {
   didResolutionMetadata: DidResolutionMetadata
@@ -19,10 +14,6 @@ export type DidResolutionRepresentationResult<T> = {
   didResolutionMetadata: DidResolutionMetadata
   didDocumentStream: T
   didDocumentMetadata: DidDocumentMetadata
-}
-
-export type DidResolutionOptions = {
-  accept: string
 }
 
 export interface DidResolver {
