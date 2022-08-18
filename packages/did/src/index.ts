@@ -1,0 +1,7 @@
+export * from './didMethodIdentifier'
+export * from './did'
+export * from './didResolver'
+export * from './didDocument'
+export * from './didVerificationMethod'
+export * from './didServiceProperties'
+export * from './didUrl'

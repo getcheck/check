@@ -488,6 +488,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@getcheck/did@workspace:packages/did":
+  version: 0.0.0-use.local
+  resolution: "@getcheck/did@workspace:packages/did"
+  dependencies:
+    rimraf: ^3.0.2
+    typescript: ^4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@getcheck/messages@workspace:*, @getcheck/messages@workspace:packages/messages":
   version: 0.0.0-use.local
   resolution: "@getcheck/messages@workspace:packages/messages"
