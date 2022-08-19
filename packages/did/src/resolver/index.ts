@@ -1,8 +1,6 @@
-import { Did } from './did'
-import { DidDocument } from './didDocument'
-import { DidResolutionMetadata } from './didResolutionMetadata'
-import { DidDocumentMetadata } from './didDocumentMetadata'
-import { DidResolutionOptions } from './didResolutionOptions'
+import { DidUrl } from '@getcheck/types'
+import { DidDocument } from '../document'
+import { DidResolutionOptions, DidDocumentMetadata, DidResolutionMetadata } from '../types'
 
 export type DidResolutionResult = {
   didResolutionMetadata: DidResolutionMetadata
@@ -17,9 +15,9 @@ export type DidResolutionRepresentationResult<T> = {
 }
 
 export interface DidResolver {
-  resolve(did: Did): Promise<DidResolutionResult>
+  resolve(did: DidUrl): Promise<DidResolutionResult>
   resolveRepresentation<T>(
-    did: Did,
+    did: DidUrl,
     resolutionOptions?: DidResolutionOptions,
   ): Promise<DidResolutionRepresentationResult<T>>
 }

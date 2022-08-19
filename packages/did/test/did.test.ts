@@ -1,8 +1,8 @@
-import { Did } from '../src/did'
-import { parseDid, verfiyDid } from '../src/utils'
+import { DidUrl } from '@getcheck/types'
+import { parseDidUrl, verfiyDidUrl } from '../src/utils'
 
-describe('did', () => {
-  test('parseDid', () => {
+describe('DidUrl', () => {
+  test('parseDidUrl', () => {
     const inputs = [
       {
         payload: 'did:check:21tDAKCERh95uGgKbJNHYp',
@@ -61,12 +61,12 @@ describe('did', () => {
     ]
 
     for (const input of inputs) {
-      const result = parseDid(input.payload as Did)
+      const result = parseDidUrl(input.payload as DidUrl)
       expect(result).toEqual(input.expected)
     }
   })
 
-  test('verifyDid', () => {
+  test('verfiyDidUrl', () => {
     const inputs = [
       {
         payload: 'did::21tDAKCERh95uGgKbJNHYp',
@@ -111,7 +111,7 @@ describe('did', () => {
     ]
 
     for (const input of inputs) {
-      const result = verfiyDid(input.payload as Did)
+      const result = verfiyDidUrl(input.payload as DidUrl)
       expect(result).toEqual(input.expected)
     }
   })

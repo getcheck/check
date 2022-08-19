@@ -1,12 +1,11 @@
-import { Did } from './did'
-import { DidUrl } from './didUrl'
+import { DidUrl } from '@getcheck/types'
 
-export function verfiyDid(did: Did | DidUrl): boolean {
+export function verfiyDidUrl(did: DidUrl): boolean {
   const didRegex = /^(did):(check):([a-z]|[0-9]|[A-Z])+((\?|#|\/).*)?$/g
   return didRegex.test(did)
 }
 
-export function parseDid(did: Did):
+export function parseDidUrl(did: DidUrl):
   | {
       protocol: string
       method: string
@@ -14,8 +13,8 @@ export function parseDid(did: Did):
       query?: string
     }
   | undefined {
-  const didClean = did.trim() as Did
-  if (!verfiyDid(didClean)) {
+  const didClean = did.trim() as DidUrl
+  if (!verfiyDidUrl(didClean)) {
     return undefined
   }
 

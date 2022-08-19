@@ -1,11 +1,8 @@
-import { Did } from './did'
-import { DidUrl } from './didUrl'
-import { DidVerificationMethod } from './didVerificationMethod'
-import { DidServiceProperties } from './didServiceProperties'
+import { DidServiceProperties, DidVerificationMethod, DidUrl } from '@getcheck/types'
 
 export type DidDocument = {
-  id: Did
-  controller?: Did | Array<Did>
+  id: DidUrl
+  controller?: DidUrl | Array<DidUrl>
   verificationMethod?: Array<DidVerificationMethod>
   authentication?: Array<DidUrl | DidVerificationMethod>
   assertionMethod?: Array<DidUrl | DidVerificationMethod>
