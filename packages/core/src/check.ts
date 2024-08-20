@@ -1,5 +1,5 @@
 import { Wallet } from '@getcheck/types'
-import { Program, AnchorProvider, web3 } from '@project-serum/anchor'
+import { Program, AnchorProvider, web3 } from '@coral-xyz/anchor'
 import { config } from './config'
 import context from './context'
 import { Check, IDL } from './idl'

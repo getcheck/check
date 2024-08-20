@@ -1,5 +1,5 @@
 import { CryptoInput, EncryptedAsymmetric, EncryptedAsymmetricStr, Hash } from '@getcheck/types'
-import { BN, utils, web3 } from '@project-serum/anchor'
+import { BN, utils, web3 } from '@coral-xyz/anchor'
 import { sha256 } from 'js-sha256'
 import { sortObj } from 'jsonabc'
 import nacl from 'tweetnacl'

@@ -1,4 +1,4 @@
-import { BN, setProvider } from '@project-serum/anchor'
+import { BN, setProvider } from '@coral-xyz/anchor'
 import { airdrop, program, provider, wallet } from './utils'
 import Check from '@getcheck/core'
 import { createCredential } from './mocks'

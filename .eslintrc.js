@@ -13,4 +13,5 @@ module.exports = {
     '@typescript-eslint/member-ordering': ['error'],
     '@typescript-eslint/ban-types': ['error', { extendDefaults: true, types: { '{}': false } }],
   },
+  ignorePatterns: ['node_modules', 'dist', 'build', 'lib', 'coverage', 'target'],
 }

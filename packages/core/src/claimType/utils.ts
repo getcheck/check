@@ -1,5 +1,5 @@
 import { ClaimTypeSchemaWithoutId } from '@getcheck/types'
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 import Ajv from 'ajv'
 import context from '../context'
 import { Crypto } from '../utils'
@@ -30,8 +30,8 @@ export const getIdForSchema = (schema: ClaimTypeSchemaWithoutId): string => {
   return getIdForClaimTypeHash(getHashForSchema(schema))
 }
 
-export const findClaimTypePDA = async (hash: Buffer | Uint8Array) => {
-  return web3.PublicKey.findProgramAddress(
+export const findClaimTypePDA = (hash: Buffer | Uint8Array) => {
+  return web3.PublicKey.findProgramAddressSync(
     [Buffer.from(CLAIM_TYPE_PREFIX), hash],
     context.program.programId,
   )

@@ -1,4 +1,4 @@
-import { AnchorProvider, web3 } from '@project-serum/anchor'
+import { AnchorProvider, web3 } from '@coral-xyz/anchor'
 import Check, {
   Claim,
   ClaimType,

@@ -1,5 +1,5 @@
 import { IIdentity, Wallet } from '@getcheck/types'
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 import { Crypto } from '../utils'
 
 export class Identity implements IIdentity {

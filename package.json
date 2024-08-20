@@ -15,32 +15,33 @@
   "scripts": {
     "idl": "cp target/types/check.ts packages/core/src/idl.ts && yarn fix:eslint:idl",
     "prebuild": "yarn idl",
-    "build": "yarn workspaces foreach -pt --no-private run build",
+    "build": "yarn workspaces foreach -A -pt --no-private run build",
     "test:program": "jest --silent",
-    "test": "yarn workspaces foreach -it --no-private run test",
+    "test": "yarn workspaces foreach -A -it --no-private run test",
     "fix:prettier": "prettier --write \"**/*.ts\"",
     "fix:eslint": "eslint . --format stylish --fix",
     "fix:eslint:idl": "eslint packages/**/idl.ts --format stylish --fix",
     "fix": "yarn fix:eslint && yarn fix:prettier",
-    "publish": "yarn workspaces foreach -pt --no-private npm publish --tolerate-republish"
+    "publish": "yarn workspaces foreach -A -pt --no-private npm publish --tolerate-republish"
   },
   "devDependencies": {
-    "@project-serum/anchor": "0.25.0",
-    "@types/jest": "^28.1.6",
+    "@coral-xyz/anchor": "^0.29.0",
+    "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "jest": "^28.1.3",
+    "jest": "^29.7.0",
     "prettier": "^2.7.1",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^28.0.7",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.4",
     "typescript": "^4.7.4"
   },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
-  }
+  },
+  "packageManager": "yarn@4.4.0"
 }

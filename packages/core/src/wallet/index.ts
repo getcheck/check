@@ -1,6 +1,6 @@
 import { CryptoInput, EncryptedAsymmetric, EncryptedAsymmetricStr, Wallet } from '@getcheck/types'
-import { web3 } from '@project-serum/anchor'
-import { Crypto } from '../utils'
+import { web3 } from '@coral-xyz/anchor'
+import { Crypto, isVersionedTransaction } from '../utils'
 
 export class SeedWallet implements Wallet {
   private readonly boxKeyPair: nacl.BoxKeyPair
@@ -17,14 +17,24 @@ export class SeedWallet implements Wallet {
     return this.boxKeyPair.publicKey
   }
 
-  async signTransaction(tx: web3.Transaction): Promise<web3.Transaction> {
-    tx.partialSign(this.payer)
+  async signTransaction<T extends web3.Transaction | web3.VersionedTransaction>(tx: T): Promise<T> {
+    if (isVersionedTransaction(tx)) {
+      tx.sign([this.payer])
+    } else {
+      tx.partialSign(this.payer)
+    }
     return tx
   }
 
-  async signAllTransactions(txs: web3.Transaction[]): Promise<web3.Transaction[]> {
+  async signAllTransactions<T extends web3.Transaction | web3.VersionedTransaction>(
+    txs: T[],
+  ): Promise<T[]> {
     return txs.map((tx) => {
-      tx.partialSign(this.payer)
+      if (isVersionedTransaction(tx)) {
+        tx.sign([this.payer])
+      } else {
+        tx.partialSign(this.payer)
+      }
       return tx
     })
   }

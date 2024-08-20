@@ -1,4 +1,4 @@
-import { AnchorProvider, Program, web3, workspace } from '@project-serum/anchor'
+import { AnchorProvider, Program, web3, workspace } from '@coral-xyz/anchor'
 import { PrivatePool } from '../target/types/private_pool'
 import process from 'process'
 import { SeedWallet } from '@getcheck/core'

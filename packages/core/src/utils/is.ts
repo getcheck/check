@@ -1,3 +1,5 @@
+import { web3 } from '@coral-xyz/anchor'
+
 export const isString = (value: unknown): value is string | string => {
   return typeof value === 'string' || value instanceof String
 }
@@ -9,4 +11,10 @@ export const isHex = (value: unknown, bitLength = -1, ignoreLength = false) => {
       ? value.length % 2 === 0 || ignoreLength
       : value.length === 2 + Math.ceil(bitLength / 4)
     : false
+}
+
+export const isVersionedTransaction = (
+  tx: web3.Transaction | web3.VersionedTransaction,
+): tx is web3.VersionedTransaction => {
+  return 'version' in tx
 }

@@ -1,5 +1,9 @@
+[features]
+resolution = true
+skip-lint = false
+
 [programs.localnet]
-check = "98ZZksmcbtKXafBzaRLzSrVWgvWZgkVkppr4P8cGrAXm"
+check = "Fw8VdNW851VoXhTTNvU9MJn9diPnDjMcw2JVgz2rTgPS"
 
 [registry]
 url = "https://anchor.projectserum.com"

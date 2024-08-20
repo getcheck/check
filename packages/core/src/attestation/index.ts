@@ -6,7 +6,7 @@ import {
   IAttestationAccount,
   RecordResult,
 } from '@getcheck/types'
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 import { findAttestationPDA } from './utils'
 import context from '../context'
 import { Crypto } from '../utils'
@@ -63,11 +63,11 @@ export class Attestation implements IAttestation {
 
   async record(): Promise<RecordResult> {
     const claimHash = Crypto.hexToU8a(this.claimHash)
-    const [attestation, bump] = await this.getPDA()
-    const [claimType] = await findClaimTypePDA(Crypto.hexToU8a(this.claimTypeHash))
+    const [attestation] = await this.getPDA()
+    const [claimType] = findClaimTypePDA(Crypto.hexToU8a(this.claimTypeHash))
 
     const signature = await context.program.methods
-      .addAttestation([...claimHash], bump)
+      .addAttestation([...claimHash])
       .accounts({
         attestation,
         claimType,

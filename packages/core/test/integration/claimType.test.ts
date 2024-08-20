@@ -6,7 +6,8 @@ describe('claimType', () => {
   beforeAll(async () => {
     Check.init(provider, wallet)
 
-    await airdrop(wallet.publicKey)
+    const res = await airdrop(wallet.publicKey)
+    console.log(res)
   })
 
   test('fromSchema', async () => {

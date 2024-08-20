@@ -1,5 +1,5 @@
 import { SeedWallet } from '@getcheck/core'
-import { AnchorProvider, web3 } from '@project-serum/anchor'
+import { AnchorProvider, web3 } from '@coral-xyz/anchor'
 
 // DeAbSs8MdyNbVCfGiF9cNEEJYQRXwU7ijwmZZvqXPyAH
 export const payer = web3.Keypair.fromSecretKey(

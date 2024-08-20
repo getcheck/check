@@ -1,5 +1,5 @@
 import { IClaim, ClaimContents, IClaimType } from '@getcheck/types'
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 import { validateSchema } from '../claimType'
 
 export class Claim implements IClaim {

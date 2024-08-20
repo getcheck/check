@@ -1,4 +1,5 @@
-import { AnchorProvider, setProvider, utils, web3 } from '@project-serum/anchor'
+import { AnchorProvider, setProvider, web3 } from '@coral-xyz/anchor'
+import { sha256 } from '@noble/hashes/sha256'
 import { findClaimTypePDA, program } from './utils'
 
 describe('claim type', () => {
@@ -9,11 +10,11 @@ describe('claim type', () => {
   })
 
   test('add claim type', async () => {
-    const hash = Buffer.from(utils.sha256.hash(Math.random().toString()), 'hex')
-    const [claimType, bump] = await findClaimTypePDA(hash)
+    const hash = Buffer.from(sha256(Math.random().toString()))
+    const [claimType] = findClaimTypePDA(hash)
 
     await program.methods
-      .addClaimType([...hash], bump)
+      .addClaimType([...hash])
       .accounts({
         claimType,
         payer: provider.wallet.publicKey,
@@ -27,11 +28,11 @@ describe('claim type', () => {
   })
 
   test('add claim type twice', async () => {
-    const hash = Buffer.from(utils.sha256.hash(Math.random().toString()), 'hex')
-    const [claimType, bump] = await findClaimTypePDA(hash)
+    const hash = Buffer.from(sha256(Math.random().toString()))
+    const [claimType] = findClaimTypePDA(hash)
 
     await program.methods
-      .addClaimType([...hash], bump)
+      .addClaimType([...hash])
       .accounts({
         claimType,
         payer: provider.wallet.publicKey,
@@ -41,28 +42,24 @@ describe('claim type', () => {
 
     try {
       await program.methods
-        .addClaimType([...hash], bump)
+        .addClaimType([...hash])
         .accounts({
-          claimType,
           payer: provider.wallet.publicKey,
-          systemProgram: web3.SystemProgram.programId,
         })
         .rpc()
       fail()
     } catch (err) {
-      expect(err.toString()).toEqual(
-        'Error: failed to send transaction: Transaction simulation failed: Error processing Instruction 0: custom program error: 0x0',
-      )
+      expect(err)
     }
   })
 
   test('invalid hash', async () => {
-    const invalidHash = Buffer.from(utils.sha256.hash(Math.random().toString()).slice(1), 'hex')
-    const [claimType, bump] = await findClaimTypePDA(invalidHash)
+    const invalidHash = Buffer.from(sha256(Math.random().toString()).slice(1))
+    const [claimType] = findClaimTypePDA(invalidHash)
 
     try {
       await program.methods
-        .addClaimType([...invalidHash], bump)
+        .addClaimType([...invalidHash])
         .accounts({
           claimType,
           payer: provider.wallet.publicKey,

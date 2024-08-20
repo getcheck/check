@@ -5,18 +5,18 @@ pub mod utils;
 
 use state::*;
 
-declare_id!("98ZZksmcbtKXafBzaRLzSrVWgvWZgkVkppr4P8cGrAXm");
+declare_id!("Fw8VdNW851VoXhTTNvU9MJn9diPnDjMcw2JVgz2rTgPS");
 
 #[program]
 pub mod check {
     use super::*;
 
-    pub fn add_claim_type(ctx: Context<AddClaimType>, hash: [u8; 32], bump: u8) -> Result<()> {
+    pub fn add_claim_type(ctx: Context<AddClaimType>, hash: [u8; 32]) -> Result<()> {
         let claim_type = &mut ctx.accounts.claim_type;
 
         claim_type.owner = *ctx.accounts.payer.key;
         claim_type.hash = hash;
-        claim_type.bump = bump;
+        claim_type.bump = ctx.bumps.claim_type;
 
         Ok(())
     }
@@ -24,7 +24,6 @@ pub mod check {
     pub fn add_attestation(
         ctx: Context<AddAttestation>,
         claim_hash: [u8; 32],
-        bump: u8,
     ) -> Result<()> {
         let attestation = &mut ctx.accounts.attestation;
         let claim_type = &ctx.accounts.claim_type;
@@ -34,14 +33,14 @@ pub mod check {
         attestation.claim_type = *claim_type.to_account_info().key;
         attestation.claim_hash = claim_hash;
         attestation.revoked = false;
-        attestation.bump = bump;
+        attestation.bump = ctx.bumps.attestation;
 
         Ok(())
     }
 }
 
 #[derive(Accounts)]
-#[instruction(hash: [u8; 32], bump: u8)]
+#[instruction(hash: [u8; 32])]
 pub struct AddClaimType<'info> {
     #[account(
         init,
@@ -62,7 +61,7 @@ pub struct AddClaimType<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(claim_hash: [u8; 32], bump: u8)]
+#[instruction(claim_hash: [u8; 32])]
 pub struct AddAttestation<'info> {
     #[account(
         init,

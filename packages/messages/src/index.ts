@@ -1,6 +1,6 @@
 import { IEncryptedMessage, IIdentity, IMessage, MessageBody, Wallet } from '@getcheck/types'
 import { Crypto } from '@getcheck/core'
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 
 export class Message implements IMessage {
   body: IMessage['body']

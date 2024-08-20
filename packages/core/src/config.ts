@@ -1,5 +1,5 @@
 export const config = {
   programs: {
-    check: '98ZZksmcbtKXafBzaRLzSrVWgvWZgkVkppr4P8cGrAXm',
+    check: 'Fw8VdNW851VoXhTTNvU9MJn9diPnDjMcw2JVgz2rTgPS',
   },
 }

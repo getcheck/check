@@ -1,5 +1,5 @@
 import { Wallet } from '@getcheck/types'
-import { Program } from '@project-serum/anchor'
+import { Program } from '@coral-xyz/anchor'
 import { Check } from './idl'
 
 export class Context {

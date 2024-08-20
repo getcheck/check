@@ -1,4 +1,4 @@
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 
 export type PublicKey = web3.PublicKey
 export type BoxPublicKey = Uint8Array

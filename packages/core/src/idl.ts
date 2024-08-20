@@ -28,10 +28,6 @@ export type Check = {
             array: ['u8', 32]
           }
         },
-        {
-          name: 'bump'
-          type: 'u8'
-        },
       ]
     },
     {
@@ -69,10 +65,6 @@ export type Check = {
           type: {
             array: ['u8', 32]
           }
-        },
-        {
-          name: 'bump'
-          type: 'u8'
         },
       ]
     },
@@ -199,10 +191,6 @@ export const IDL: Check = {
             array: ['u8', 32],
           },
         },
-        {
-          name: 'bump',
-          type: 'u8',
-        },
       ],
     },
     {
@@ -240,10 +228,6 @@ export const IDL: Check = {
           type: {
             array: ['u8', 32],
           },
-        },
-        {
-          name: 'bump',
-          type: 'u8',
         },
       ],
     },

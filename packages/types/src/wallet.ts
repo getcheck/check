@@ -1,4 +1,4 @@
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 import { EncryptedAsymmetric, CryptoInput, EncryptedAsymmetricStr } from './crypto'
 
 export interface Wallet {
@@ -6,8 +6,10 @@ export interface Wallet {
   boxPublicKey: Uint8Array
 
   // Signing
-  signTransaction(tx: web3.Transaction): Promise<web3.Transaction>
-  signAllTransactions(txs: web3.Transaction[]): Promise<web3.Transaction[]>
+  signTransaction<T extends web3.Transaction | web3.VersionedTransaction>(tx: T): Promise<T>
+  signAllTransactions<T extends web3.Transaction | web3.VersionedTransaction>(
+    txs: T[],
+  ): Promise<T[]>
   signMessage(message: Uint8Array): Promise<Uint8Array>
 
   // Encrypting

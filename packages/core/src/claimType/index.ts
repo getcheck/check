@@ -4,7 +4,7 @@ import {
   IClaimTypeAccount,
   RecordResult,
 } from '@getcheck/types'
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 import context from '../context'
 import { Crypto } from '../utils'
 import { findClaimTypePDA, getHashForSchema, getIdForSchema } from './utils'
@@ -41,11 +41,11 @@ export class ClaimType implements IClaimType {
 
   async record(): Promise<RecordResult> {
     const hash = Crypto.hexToU8a(this.hash)
-    const [claimType, bump] = await this.getPDA()
+    const [claimType] = await this.getPDA()
     const wallet = context.wallet
 
     const signature = await context.program.methods
-      .addClaimType([...hash], bump)
+      .addClaimType([...hash])
       .accounts({
         claimType,
         payer: wallet.publicKey,

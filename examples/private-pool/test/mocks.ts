@@ -1,6 +1,6 @@
 import { Attestation, Claim, ClaimType, Credential, RequestAttestation } from '@getcheck/core'
 import { ClaimContents, ClaimTypeSchemaWithoutId } from '@getcheck/types'
-import { web3 } from '@project-serum/anchor'
+import { web3 } from '@coral-xyz/anchor'
 
 export const schema: ClaimTypeSchemaWithoutId = {
   $schema: 'http://getcheck.dev/draft-01/claim-type#',
